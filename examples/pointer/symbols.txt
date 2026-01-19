@@ -1,0 +1,3 @@
+; Pointer examples
+08000100 Data_100
+08000200 Data_200
