@@ -1,0 +1,200 @@
+[
+    {
+        "def": {
+            "kind": "array",
+            "count": 3,
+            "enum_def": "DemoId",
+            "items": {
+                "kind": "struct",
+                "fields": [
+                    {
+                        "name": "area",
+                        "type": {
+                            "kind": "enum_val",
+                            "size": 1,
+                            "enum_def": "Area" 
+                        }
+                    },
+                    {
+                        "name": "lastDoorUsed",
+                        "type": {
+                            "kind": "int",
+                            "type": "u8"
+                        }
+                    },
+                    {
+                        "name": "securityLevel",
+                        "type": {
+                            "kind": "enum_val",
+                            "size": 1,
+                            "enum_def": "SecurityLevel" 
+                        }
+                    },
+                    {
+                        "name": "downloadedMaps",
+                        "type": {
+                            "kind": "int",
+                            "type": "u8",
+                            "base": "hex"
+                        }
+                    },
+                    {
+                        "name": "event",
+                        "type": {
+                            "kind": "enum_val",
+                            "size": 1,
+                            "enum_def": "Event" 
+                        }
+                    },
+                    {
+                        "name": "soundEvent",
+                        "type": {
+                            "kind": "enum_val",
+                            "size": 2,
+                            "enum_def": "SoundEvent" 
+                        }
+                    },
+                    {
+                        "name": "abilityCount",
+                        "type": {
+                            "kind": "enum_val",
+                            "size": 1,
+                            "enum_def": "AbilityCount" 
+                        }
+                    },
+                    {
+                        "name": "maxEnergy",
+                        "type": {
+                            "kind": "int",
+                            "type": "u16"
+                        }
+                    },
+                    {
+                        "name": "currentEnergy",
+                        "type": {
+                            "kind": "int",
+                            "type": "u16"
+                        }
+                    },
+                    {
+                        "name": "maxMissiles",
+                        "type": {
+                            "kind": "int",
+                            "type": "u16"
+                        }
+                    },
+                    {
+                        "name": "currentMissiles",
+                        "type": {
+                            "kind": "int",
+                            "type": "u16"
+                        }
+                    },
+                    {
+                        "name": "maxPowerBombs",
+                        "type": {
+                            "kind": "int",
+                            "type": "u8"
+                        }
+                    },
+                    {
+                        "name": "currentPowerBombs",
+                        "type": {
+                            "kind": "int",
+                            "type": "u8"
+                        }
+                    },
+                    {
+                        "name": "samusDirection",
+                        "type": {
+                            "kind": "enum_val",
+                            "size": 2,
+                            "enum_def": "Key" 
+                        }
+                    },
+                    {
+                        "name": "samusX",
+                        "type": {
+                            "kind": "int",
+                            "type": "u16"
+                        }
+                    },
+                    {
+                        "name": "samusY",
+                        "type": {
+                            "kind": "int",
+                            "type": "u16"
+                        }
+                    }
+                ]
+            }
+        },
+        "decl": "const struct DemoRam",
+        "items": [
+            { "addr": 0, "name": "sDemoRam" }
+        ]
+    },
+    {
+        "def": {
+            "kind": "array",
+            "count": 4,
+            "enum_def": "AbilityCount",
+            "items": {
+                "kind": "struct",
+                "fields": [
+                    {
+                        "name": "beamStatus",
+                        "type": {
+                            "kind": "enum_val",
+                            "size": 1,
+                            "enum_def": "BeamFlag" 
+                        }
+                    },
+                    {
+                        "name": "weaponStatus",
+                        "type": {
+                            "kind": "enum_val",
+                            "size": 1,
+                            "enum_def": "MissileBombFlag" 
+                        }
+                    },
+                    {
+                        "name": "suitStatus",
+                        "type": {
+                            "kind": "enum_val",
+                            "size": 1,
+                            "enum_def": "SuitMiscFlag" 
+                        }
+                    },
+                    {
+                        "name": "isSuit",
+                        "type": {
+                            "kind": "bool",
+                            "size": 1
+                        }
+                    },
+                    {
+                        "name": "messageNumber",
+                        "type": {
+                            "kind": "enum_val",
+                            "size": 1,
+                            "enum_def": "Message" 
+                        }
+                    },
+                    {
+                        "name": "soundEvent",
+                        "type": {
+                            "kind": "enum_val",
+                            "size": 2,
+                            "enum_def": "SoundEvent" 
+                        }
+                    }
+                ]
+            }
+        },
+        "decl": "const struct AbilityRamValue",
+        "items": [
+            { "addr": "0x54", "name": "sAbilityRamValues" }
+        ]
+    }
+]

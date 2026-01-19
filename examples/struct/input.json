@@ -1,0 +1,103 @@
+[
+    {
+        "def": {
+            "kind": "struct",
+            "fields": [
+                {
+                    "name": "field1",
+                    "type": {
+                        "kind": "int",
+                        "type": "u8",
+                        "base": "hex"
+                    }
+                },
+                {
+                    "name": "field2",
+                    "type": {
+                        "kind": "int",
+                        "type": "u16",
+                        "base": "hex"
+                    }
+                },
+                {
+                    "name": "field3",
+                    "type": {
+                        "kind": "int",
+                        "type": "u32",
+                        "base": "hex"
+                    }
+                },
+                {
+                    "name": "field4",
+                    "type": {
+                        "kind": "bool",
+                        "size": 1
+                    }
+                },
+                {
+                    "name": "field5",
+                    "type": {
+                        "kind": "bool",
+                        "size": 4
+                    }
+                }
+            ]
+        },
+        "decl": "const struct MyStruct1",
+        "items": [
+            {"addr": "0x0", "name": "MyStruct1_00"}
+        ]
+    },
+    {
+        "def": {
+            "kind": "struct",
+            "fields": [
+                {
+                    "name": "myArray",
+                    "type": {
+                        "kind": "array",
+                        "count": 3,
+                        "format": "int_index",
+                        "items": {
+                            "kind": "struct",
+                            "fields": [
+                                {
+                                    "name": "pData",
+                                    "type": {
+                                        "kind": "pointer",
+                                        "type_cast": "const u16*"
+                                    }
+                                },
+                                {
+                                    "name": "varX",
+                                    "type": {
+                                        "kind": "int",
+                                        "type": "u8"
+                                    }
+                                },
+                                {
+                                    "name": "varY",
+                                    "type": {
+                                        "kind": "int",
+                                        "type": "u8"
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "pInfo",
+                    "type": {
+                        "kind": "pointer",
+                        "type_cast": "const MyStruct1*"
+                    }
+                }
+            ]
+        },
+        "decl": "const struct MyStruct2",
+        "items": [
+            {"addr": "0x10", "name": "MyStruct2_10"}
+        ]
+    }
+]

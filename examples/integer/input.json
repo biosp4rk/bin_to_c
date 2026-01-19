@@ -1,0 +1,104 @@
+[
+    {
+        "def": {
+            "kind": "int",
+            "type": "u8"
+        },
+        "decl": "const u8",
+        "items": [
+            {"addr": 0, "name": "U8_Dec_0"},
+            {"addr": 1, "name": "U8_Dec_1"}
+        ]
+    },
+    {
+        "def": {
+            "kind": "int",
+            "type": "u8",
+            "base": "hex"
+        },
+        "decl": "const u8",
+        "items": [
+            {"addr": 0, "name": "U8_Hex_0"},
+            {"addr": 1, "name": "U8_Hex_1"}
+        ]
+    },
+    {
+        "def": {
+            "kind": "int",
+            "type": "s8"
+        },
+        "decl": "const s8",
+        "items": [
+            {"addr": 0, "name": "S8_Dec_0"},
+            {"addr": 1, "name": "S8_Dec_1"}
+        ]
+    },
+    {
+        "def": {
+            "kind": "int",
+            "type": "u16"
+        },
+        "decl": "const u16",
+        "items": [
+            {"addr": 4, "name": "U16_Dec_4"},
+            {"addr": 6, "name": "U16_Dec_6"}
+        ]
+    },
+    {
+        "def": {
+            "kind": "int",
+            "type": "u16",
+            "base": "hex"
+        },
+        "decl": "const u16",
+        "items": [
+            {"addr": 4, "name": "U16_Hex_4"},
+            {"addr": 6, "name": "U16_Hex_6"}
+        ]
+    },
+    {
+        "def": {
+            "kind": "int",
+            "type": "s16"
+        },
+        "decl": "const s16",
+        "items": [
+            {"addr": 4, "name": "S16_Dec_4"},
+            {"addr": 6, "name": "S16_Dec_6"}
+        ]
+    },
+    {
+        "def": {
+            "kind": "int",
+            "type": "u32"
+        },
+        "decl": "const u32",
+        "items": [
+            {"addr": 8, "name": "U32_Dec_8"},
+            {"addr": 12, "name": "U32_Dec_C"}
+        ]
+    },
+    {
+        "def": {
+            "kind": "int",
+            "type": "u32",
+            "base": "hex"
+        },
+        "decl": "const u8",
+        "items": [
+            {"addr": 8, "name": "U32_Hex_8"},
+            {"addr": 12, "name": "U32_Hex_C"}
+        ]
+    },
+    {
+        "def": {
+            "kind": "int",
+            "type": "s32"
+        },
+        "decl": "const s32",
+        "items": [
+            {"addr": 8, "name": "S32_Dec_8"},
+            {"addr": 12, "name": "S32_Dec_C"}
+        ]
+    }
+]

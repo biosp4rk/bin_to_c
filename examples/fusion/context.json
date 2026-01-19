@@ -1,0 +1,106 @@
+{
+    "enums": {
+        "DemoId": [
+                "DEMO_ID_SECTOR_2",
+                "DEMO_ID_SECTOR_5",
+                "DEMO_ID_SECTOR_4",
+                "DEMO_ID_MAIN_DECK",
+                "DEMO_ID_WALL_JUMP",
+                "DEMO_ID_SHINESPARK",
+                "DEMO_ID_LADDERS",
+                "DEMO_ID_POWER_BOMBS",
+                "DEMO_ID_SECTOR_3",
+                "DEMO_ID_SECTOR_6",
+                "DEMO_ID_ARACHNUS",
+                "DEMO_ID_SCREW_ATTACK",
+                "DEMO_ID_END"
+        ],
+        "Area": [
+            "AREA_MAIN_DECK",
+            "AREA_SECTOR_1",
+            "AREA_SECTOR_2",
+            "AREA_SECTOR_3",
+            "AREA_SECTOR_4",
+            "AREA_SECTOR_5",
+            "AREA_SECTOR_6",
+            "AREA_TEST_1",
+            "AREA_TEST_2",
+            "AREA_TEST_3"
+        ],
+        "SecurityLevel": {
+            "0": "SECURITY_LEVEL_0",
+            "1": "SECURITY_LEVEL_1",
+            "2": "SECURITY_LEVEL_2",
+            "3": "SECURITY_LEVEL_3",
+            "4": "SECURITY_LEVEL_4",
+            "0xFF": "SECURITY_LEVEL_NO_HATCHES"
+        },
+        "Event": {
+            "0x16": "EVENT_BOMB_DATA_DOWNLOADED",
+            "0x1C": "EVENT_NAVIGATION_ROOM_ENTERING_AQA",
+            "0x3A": "EVENT_ICE_MISSILE_DATA_DOWNLOADED"
+        },
+        "SoundEvent": {
+            "0x00": "SOUND_EVENT_FIRST_CONVERSATION_STARTED",
+            "0x0A": "SOUND_EVENT_DOWNLOADED_MISSILES",
+            "0x0E": "SOUND_EVENT_MORPH_BALL_ABILITY_RECOVERED",
+            "0x19": "SOUND_EVENT_CHARGE_BEAM_ABILITY_RECOVERED"
+        },
+        "AbilityCount": [
+            "ABILITY_COUNT_NONE",
+            "ABILITY_COUNT_MISSILES",
+            "ABILITY_COUNT_MORPH_BALL",
+            "ABILITY_COUNT_CHARGE_BEAM",
+            "ABILITY_COUNT_BOMBS",
+            "ABILITY_COUNT_HIGH_JUMP",
+            "ABILITY_COUNT_SPEED_BOOSTER",
+            "ABILITY_COUNT_SUPER_MISSILES",
+            "ABILITY_COUNT_VARIA_SUIT",
+            "ABILITY_COUNT_ICE_MISSILES",
+            "ABILITY_COUNT_WIDE_BEAM",
+            "ABILITY_COUNT_POWER_BOMBS",
+            "ABILITY_COUNT_SPACE_JUMP",
+            "ABILITY_COUNT_PLASMA_BEAM",
+            "ABILITY_COUNT_GRAVITY_SUIT",
+            "ABILITY_COUNT_DIFFUSION_MISSILES",
+            "ABILITY_COUNT_WAVE_BEAM",
+            "ABILITY_COUNT_SCREW_ATTACK",
+            "ABILITY_COUNT_ICE_BEAM"
+        ],
+        "Key": {
+            "0x10": "KEY_RIGHT",
+            "0x20": "KEY_LEFT"
+        },
+        "SuitMiscFlag": {
+            "0x01": "SMF_HIGH_JUMP",
+            "0x02": "SMF_SPEED_BOOSTER",
+            "0x04": "SMF_SPACE_JUMP",
+            "0x08": "SMF_SCREW_ATTACK",
+            "0x10": "SMF_VARIA_SUIT",
+            "0x20": "SMF_GRAVITY_SUIT",
+            "0x40": "SMF_MORPH_BALL",
+            "0x80": "SMF_SA_X_SUIT"
+        },
+        "BeamFlag": {
+            "0x01": "BF_CHARGE_BEAM",
+            "0x02": "BF_WIDE_BEAM",
+            "0x04": "BF_PLASMA_BEAM",
+            "0x08": "BF_WAVE_BEAM",
+            "0x10": "BF_ICE_BEAM"
+        },
+        "MissileBombFlag": {
+            "0x01": "MBF_MISSILES",
+            "0x02": "MBF_SUPER_MISSILES",
+            "0x04": "MBF_ICE_MISSILES",
+            "0x08": "MBF_DIFFUSION_MISSILES",
+            "0x10": "MBF_BOMBS",
+            "0x20": "MBF_POWER_BOMBS"
+        },
+        "Message": {
+            "0x00": "MESSAGE_LEVEL_1",
+            "0x04": "MESSAGE_MISSILE_DATA",
+            "0x0A": "MESSAGE_MORPH_BALL",
+            "0x11": "MESSAGE_CHARGE_BEAM"
+        }
+    }
+}

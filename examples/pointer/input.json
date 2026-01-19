@@ -1,0 +1,24 @@
+[
+    {
+        "def": {
+            "kind": "pointer",
+            "type_cast": "const MyType*"
+        },
+        "decl": "const MyType*",
+        "items": [
+            {"addr": 0, "name": "NoSym_0"},
+            {"addr": 8, "name": "NoSym_8"}
+        ]
+    },
+    {
+        "def": {
+            "kind": "pointer",
+            "type_cast": "const MyType*"
+        },
+        "decl": "const MyType*",
+        "items": [
+            {"addr": 4, "name": "Sym_4"},
+            {"addr": 12, "name": "Sym_C"}
+        ]
+    }
+]

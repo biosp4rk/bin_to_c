@@ -1,0 +1,128 @@
+[
+    {
+        "def": {
+            "kind": "array",
+            "count": 8,
+            "items": {
+                "kind": "int",
+                "type": "s8"
+            }
+        },
+        "decl": "const s8",
+        "items": [
+            {"addr": "0x0", "name": "S8_Dec_00"},
+            {"addr": "0x8", "name": "S8_Dec_08"}
+        ]
+    },
+    {
+        "def": {
+            "kind": "array",
+            "count": 8,
+            "items": {
+                "kind": "int",
+                "type": "u8",
+                "base": "hex"
+            },
+            "format": "single_line"
+        },
+        "decl": "const u8",
+        "items": [
+            {"addr": "0x0", "name": "U8_Hex_00"},
+            {"addr": "0x8", "name": "U8_Hex_08"}
+        ]
+    },
+    {
+        "def": {
+            "kind": "array",
+            "count": "0xD",
+            "items": {
+                "kind": "int",
+                "type": "u8",
+                "base": "hex"
+            },
+            "format": "ascii"
+        },
+        "decl": "const s8",
+        "items": [
+            {"addr": "0x10", "name": "Ascii_10"}
+        ]
+    },
+    {
+        "def": {
+            "kind": "array",
+            "count": 4,
+            "items": {
+                "kind": "int",
+                "type": "u8",
+                "base": "hex"
+            },
+            "format": "enum_index",
+            "enum_def": [
+                "INDEX_0",
+                "INDEX_1",
+                "INDEX_2",
+                "INDEX_3"
+            ]
+        },
+        "decl": "const u8",
+        "items": [
+            {"addr": "0x8", "name": "EnumVal_08"}
+        ]
+    },
+    {
+        "def": {
+            "kind": "array",
+            "count": 3,
+            "items": [
+                {
+                    "kind": "enum_val",
+                    "size": 1,
+                    "enum_def": ["FOO_0", "FOO_1"]
+                },
+                {
+                    "kind": "enum_val",
+                    "size": 1,
+                    "enum_def": ["BAR_0", "BAR_1"]
+                },
+                {
+                    "kind": "int",
+                    "type": "u8"
+                }
+            ],
+            "format": "int_index"
+        },
+        "decl": "const u8",
+        "items": [
+            {"addr": "0x0", "name": "DiffItems_00"}
+        ]
+    },
+    {
+        "def": {
+            "kind": "array",
+            "count": 2,
+            "items": {
+                "kind": "struct",
+                "fields": [
+                    {
+                        "name": "pData",
+                        "type": {
+                            "kind": "pointer",
+                            "type_cast": "const u8*"
+                        }
+                    },
+                    {
+                        "name": "flag",
+                        "type": {
+                            "kind": "bool",
+                            "size": 1
+                        }
+                    }
+                ]
+            }
+        },
+        "decl": "const struct MyStruct",
+        "items": [
+            {"addr": "0x20", "name": "Struct_20"}
+        ]
+    }
+]

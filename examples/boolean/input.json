@@ -1,0 +1,35 @@
+[
+    {
+        "def": {
+            "kind": "bool",
+            "size": 1
+        },
+        "decl": "const bool8",
+        "items": [
+            {"addr": 0, "name": "Bool8_0"},
+            {"addr": 4, "name": "Bool8_4"}
+        ]
+    },
+    {
+        "def": {
+            "kind": "bool",
+            "size": 2
+        },
+        "decl": "const bool16",
+        "items": [
+            {"addr": 0, "name": "Bool16_0"},
+            {"addr": 4, "name": "Bool16_4"}
+        ]
+    },
+    {
+        "def": {
+            "kind": "bool",
+            "size": 4
+        },
+        "decl": "const bool32",
+        "items": [
+            {"addr": 0, "name": "Bool32_0"},
+            {"addr": 4, "name": "Bool32_4"}
+        ]
+    }
+]

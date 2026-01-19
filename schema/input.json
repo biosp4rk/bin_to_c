@@ -1,0 +1,46 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "array",
+    "items": {
+        "type": "object",
+        "properties": {
+            "arrays": {
+                "type": "boolean"
+            },
+            "def": {
+                "oneOf": [
+                    {
+                        "$ref": "urn:definitions#/definitions/Name"
+                    },
+                    {
+                        "$ref": "urn:definitions#/definitions/VarDef"
+                    }
+                ]
+            },
+            "decl": {
+                "type": "string"
+            },
+            "items": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "addr": {
+                            "$ref": "urn:definitions#/definitions/IntValue"
+                        },
+                        "count": {
+                            "$ref": "urn:definitions#/definitions/IntValue"
+                        },
+                        "name": {
+                            "$ref": "urn:definitions#/definitions/Name"
+                        }
+                    },
+                    "required": ["addr"],
+                    "additionalProperties": false
+                }
+            }
+        },
+        "required": ["def", "items"],
+        "additionalProperties": false
+    }
+}

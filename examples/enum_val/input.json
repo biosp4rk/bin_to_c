@@ -1,0 +1,32 @@
+[
+    {
+        "def": {
+            "kind": "enum_val",
+            "size": 1,
+            "enum_def": [
+                "VALUE_0",
+                "VALUE_1"
+            ]
+        },
+        "decl": "const u8",
+        "items": [
+            {"addr": 0, "name": "EnumVal1_0"},
+            {"addr": 1, "name": "EnumVal1_1"}
+        ]
+    },
+    {
+        "def": {
+            "kind": "enum_val",
+            "size": 2,
+            "enum_def": {
+                "0x10": "VALUE_10",
+                "0x20": "VALUE_20"
+            }
+        },
+        "decl": "const u16",
+        "items": [
+            {"addr": 2, "name": "EnumVal2_2"},
+            {"addr": 4, "name": "EnumVal2_4"}
+        ]
+    }
+]
