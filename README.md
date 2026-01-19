@@ -40,7 +40,7 @@ python3 bin_to_c.py rom_file input_file [-c CONTEXT_FILE] [-s SYMBOLS_FILE] [-p 
 - `input_file`: Path to an input JSON file, which specifies the data to extract and the format to use (see [Input File Format](#input-file-format))
 
 **Optional arguments:**
-- `-x CONTEXT_FILE`: Path to a context JSON file, containing enum and variable definitions (see [Context File Format](#context-file-format))
+- `-c CONTEXT_FILE`: Path to a context JSON file, containing enum and variable definitions (see [Context File Format](#context-file-format))
 - `-s SYMBOLS_FILE`: Path to a symbols file, containing addresses and their names (see [Symbols File Format](#symbols-file-format))
 - `-p PTR_OUTPUT`: The output path to write all pointers that were encountered
 
@@ -53,8 +53,9 @@ The root value is an array. Each element in the array is an object with the foll
 
 ```json
 {
-  "arrays": <true|false>
+  "arrays": <true|false>,
   "def": ...,
+  "decl": "const MyType",
   "items": [...]
 }
 ```
@@ -65,14 +66,14 @@ The root value is an array. Each element in the array is an object with the foll
 | -------- | ---------------- | ----------------------------------------------------------------------------- |
 | `arrays` | boolean          | Indicates that each item is an array with the provided count (default: false) |
 | `def`    | object or string | A type definition, or the name of a type defined in the context               |
-| `items`  | array            | List of named items to extract, all sharing the same type                     |
+| `items`  | array            | List of items to extract, all sharing the same type                           |
 
 #### Optional Properties
 
-| Property | Type    | Description                                                        |
-| -------- | ------- | ------------------------------------------------------------------ |
-| `arrays` | boolean | Treats each item as an array with the provided count               |
-| `decl`   | string  | Optional declaration string to insert before each item             |
+| Property | Type    | Description                                                                   |
+| -------- | ------- | ----------------------------------------------------------------------------- |
+| `arrays` | boolean | Indicates that each item is an array with the provided count (default: false) |
+| `decl`   | string  | Optional declaration string to insert before each item                        |
 
 ---
 
@@ -357,7 +358,7 @@ A symbols file contains addresses and symbol names, which can be used to replace
 
 ## Outputting Pointers
 
-If a pointer output filename is provided, any pointers encountered will be written to the provided file. The pointers are sorted with one pointer per line. Each pointer is followed by a description of every variable, field or array index with that pointer. This is helpful for assigning names to pointers (which can be added to a symbols file).
+If a pointer output filename is provided, any pointers encountered will be written to the provided file. The pointers are sorted with one pointer per line. Each pointer is followed by a description of every variable, field, or array index with that pointer. This is helpful for assigning names to pointers (which can be added to a symbols file).
 
 Example output for `struct MyStruct MyData[4]`, where the struct has a pointer field named `pData`:
 
