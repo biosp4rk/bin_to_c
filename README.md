@@ -40,9 +40,9 @@ python3 bin_to_c.py rom_file input_file [-c CONTEXT_FILE] [-s SYMBOLS_FILE] [-p 
 - `input_file`: Path to an input JSON file, which specifies the data to extract and the format to use (see [Input File Format](#input-file-format))
 
 **Optional arguments:**
-- `-c CONTEXT_FILE`: Path to a context JSON file, containing enum and variable definitions (see [Context File Format](#context-file-format))
+- `-c CONTEXT_FILE`: Path to a context JSON file, containing enum and type definitions (see [Context File Format](#context-file-format))
 - `-s SYMBOLS_FILE`: Path to a symbols file, containing addresses and their names (see [Symbols File Format](#symbols-file-format))
-- `-p PTR_OUTPUT`: The output path to write all pointers that were encountered
+- `-p PTR_OUTPUT`: The output path to write all pointers that were encountered (see [Outputting Pointers](#outputting-pointers))
 
 
 ## Input File Format
@@ -62,11 +62,10 @@ The root value is an array. Each element in the array is an object with the foll
 
 #### Required Properties
 
-| Property | Type             | Description                                                                   |
-| -------- | ---------------- | ----------------------------------------------------------------------------- |
-| `arrays` | boolean          | Indicates that each item is an array with the provided count (default: false) |
-| `def`    | object or string | A type definition, or the name of a type defined in the context               |
-| `items`  | array            | List of items to extract, all sharing the same type                           |
+| Property | Type             | Description                                                     |
+| -------- | ---------------- | --------------------------------------------------------------- |
+| `def`    | object or string | A type definition, or the name of a type defined in the context |
+| `items`  | array            | List of items to extract, all sharing the same type             |
 
 #### Optional Properties
 
