@@ -1,2 +1,4 @@
 /*.sym
 *.gba
+
+__pycache__/
