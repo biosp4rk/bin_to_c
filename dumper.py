@@ -47,9 +47,9 @@ class Dumper:
             if var_def.base == IntBase.DEC:
                 s = f"{val}"
             elif var_def.base == IntBase.HEX:
-                if val < 0:
-                    val = (1 << (size * 8)) + val
-                s = f"0x{val:X}"
+                sign = "-" if val < 0 else ""
+                val = abs(val)
+                s = f"{sign}0x{val:X}"
             return s
         elif isinstance(var_def, Boolean):
             val = self.read_int(var_def.size, False)

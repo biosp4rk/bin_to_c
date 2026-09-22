@@ -27,6 +27,12 @@ class TestDumperInteger(unittest.TestCase):
         s = d.dump(0, Integer(IntType.U8, IntBase.HEX))
         self.assertEqual(s, "0x10")
 
+    def test_signed_hex(self):
+        rom = io.BytesIO(b"\x80")
+        d = Dumper(rom)
+        s = d.dump(0, Integer(IntType.S8, IntBase.HEX))
+        self.assertEqual(s, "-0x80")
+
 
 class TestDumperBoolean(unittest.TestCase):
     def test_false_true(self):
