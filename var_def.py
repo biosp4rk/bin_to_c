@@ -67,7 +67,7 @@ class EnumVal(VarDef):
 
     def __post_init__(self):
         if self.size not in [1, 2, 4]:
-            raise ValueError(f"Invalid boolean size: {self.size}")
+            raise ValueError(f"Invalid enum size: {self.size}")
     
     def __repr__(self) -> str:
         return f"EnumVal(size={self.size}, enum_def={self.enum_def})"
@@ -143,7 +143,7 @@ class Array(VarDef):
             f"count={self.count}",
             f"items={items_str}",
             f"format=ArrFormat.{self.format.name}",
-            f"enum_def={self.enum_def}"
+            f"enum_def={self.enum_def}",
             f"trailing_comma={self.trailing_comma}"
         ])
         return f"Array({fields_str})"
