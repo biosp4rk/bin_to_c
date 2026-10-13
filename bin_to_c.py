@@ -94,7 +94,8 @@ def parse_def(
                 enum_def = get_enum_def(enum_obj, enums)
             else:
                 enum_def = None
-            return Array(count, items, format, enum_def)
+            trailing_comma = obj.get("trailing_comma", False)
+            return Array(count, items, format, enum_def, trailing_comma)
         case "pointer":
             return Pointer(obj.get("type_cast"))
         case _:

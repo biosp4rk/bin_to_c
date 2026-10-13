@@ -183,12 +183,13 @@ Arrays are defined by providing a count, an item type definition (or list of def
 }
 ```
 
-| Field      | Description                                     |
-| ---------- | ----------------------------------------------- |
-| `count`    | Number of elements (integer or hex string)      |
-| `items`    | Item type or list of item types                 |
-| `format`   | Optional display format (default: `multi_line`) |
-| `enum_def` | Optional enum definition for indexing           |
+| Field            | Description                                            |
+| ---------------- | ------------------------------------------------------ |
+| `count`          | Number of elements (integer or hex string)             |
+| `items`          | Item type or list of item types                        |
+| `format`         | Optional display format (default: `multi_line`)        |
+| `enum_def`       | Optional enum definition for indexing                  |
+| `trailing_comma` | Include a comma after the last item (default: `false`) |
 
 Supported formats:
 
