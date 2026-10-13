@@ -5,8 +5,8 @@ from typing import Optional, Union, TextIO
 
 from dumper import ROM_OFFSET, Dumper
 from var_def import (
-    EnumDef, VarDef, IntType, IntBase, Integer, Boolean,
-    EnumVal, Pointer, Struct, ArrFormat, Array,
+    EnumDef, VarDef, IntType, IntBase, Integer,
+    Boolean, Pointer, Struct, ArrFormat, Array,
 )
 
 
@@ -64,13 +64,14 @@ def parse_def(
                 base = IntBase[base_str.upper()]
             else:
                 base = IntBase.DEC
-            return Integer(type, base)
+            enum_obj = obj.get("enum_def")
+            if enum_obj is not None:
+                enum_def = get_enum_def(enum_obj, enums)
+            else:
+                enum_def = None
+            return Integer(type, base, enum_def)
         case "bool":
             return Boolean(parse_int(obj["size"]))
-        case "enum_val":
-            size = parse_int(obj["size"])
-            enum_def = get_enum_def(obj["enum_def"], enums)
-            return EnumVal(size, enum_def)
         case "struct":
             fields = [
                 (f["name"], parse_def(f["type"], defs, enums))

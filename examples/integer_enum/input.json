@@ -1,8 +1,8 @@
 [
     {
         "def": {
-            "kind": "enum_val",
-            "size": 1,
+            "kind": "int",
+            "type": "u8",
             "enum_def": [
                 "VALUE_0",
                 "VALUE_1"
@@ -16,8 +16,8 @@
     },
     {
         "def": {
-            "kind": "enum_val",
-            "size": 2,
+            "kind": "int",
+            "type": "u16",
             "enum_def": {
                 "0x10": "VALUE_10",
                 "0x20": "VALUE_20"

@@ -27,9 +27,15 @@ class IntBase(Enum):
 class Integer(VarDef):
     type: IntType
     base: IntBase = IntBase.DEC
+    enum_def: EnumDef = None
 
     def __repr__(self) -> str:
-        return f"Integer(type=IntType.{self.type.name}, base=IntBase.{self.base.name})"
+        fields_str = ", ".join([
+            f"type=IntType.{self.type.name}",
+            f"base=IntBase.{self.base.name}",
+            f"enum_def={self.enum_def}"
+        ])
+        return f"Integer({fields_str})"
 
     def size(self) -> int:
         match self.type:
@@ -58,19 +64,6 @@ class Boolean(VarDef):
 
     def __repr__(self) -> str:
         return f"Boolean(size={self.size})"
-
-
-@dataclass(frozen=True)
-class EnumVal(VarDef):
-    size: int
-    enum_def: EnumDef
-
-    def __post_init__(self):
-        if self.size not in [1, 2, 4]:
-            raise ValueError(f"Invalid enum size: {self.size}")
-    
-    def __repr__(self) -> str:
-        return f"EnumVal(size={self.size}, enum_def={self.enum_def})"
 
 
 @dataclass(frozen=True)
@@ -133,6 +126,8 @@ class Array(VarDef):
         elif self.format == ArrFormat.ASCII:
             if not (isinstance(self.items, Integer) and self.items.size() == 1):
                 raise ValueError("Array items must be S8 or U8 when format is ASCII")
+            if self.items.enum_def is not None:
+                raise ValueError("Integer cannot specify enum def when used for ASCII")
 
     def __repr__(self) -> str:
         if isinstance(self.items, list):

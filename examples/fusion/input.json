@@ -10,8 +10,8 @@
                     {
                         "name": "area",
                         "type": {
-                            "kind": "enum_val",
-                            "size": 1,
+                            "kind": "int",
+                            "type": "u8",
                             "enum_def": "Area" 
                         }
                     },
@@ -25,8 +25,8 @@
                     {
                         "name": "securityLevel",
                         "type": {
-                            "kind": "enum_val",
-                            "size": 1,
+                            "kind": "int",
+                            "type": "u8",
                             "enum_def": "SecurityLevel" 
                         }
                     },
@@ -41,24 +41,24 @@
                     {
                         "name": "event",
                         "type": {
-                            "kind": "enum_val",
-                            "size": 1,
+                            "kind": "int",
+                            "type": "u8",
                             "enum_def": "Event" 
                         }
                     },
                     {
                         "name": "soundEvent",
                         "type": {
-                            "kind": "enum_val",
-                            "size": 2,
+                            "kind": "int",
+                            "type": "u16",
                             "enum_def": "SoundEvent" 
                         }
                     },
                     {
                         "name": "abilityCount",
                         "type": {
-                            "kind": "enum_val",
-                            "size": 1,
+                            "kind": "int",
+                            "type": "u8",
                             "enum_def": "AbilityCount" 
                         }
                     },
@@ -107,8 +107,8 @@
                     {
                         "name": "samusDirection",
                         "type": {
-                            "kind": "enum_val",
-                            "size": 2,
+                            "kind": "int",
+                            "type": "u16",
                             "enum_def": "Key" 
                         }
                     },
@@ -145,24 +145,24 @@
                     {
                         "name": "beamStatus",
                         "type": {
-                            "kind": "enum_val",
-                            "size": 1,
+                            "kind": "int",
+                            "type": "u8",
                             "enum_def": "BeamFlag" 
                         }
                     },
                     {
                         "name": "weaponStatus",
                         "type": {
-                            "kind": "enum_val",
-                            "size": 1,
+                            "kind": "int",
+                            "type": "u8",
                             "enum_def": "MissileBombFlag" 
                         }
                     },
                     {
                         "name": "suitStatus",
                         "type": {
-                            "kind": "enum_val",
-                            "size": 1,
+                            "kind": "int",
+                            "type": "u8",
                             "enum_def": "SuitMiscFlag" 
                         }
                     },
@@ -176,16 +176,16 @@
                     {
                         "name": "messageNumber",
                         "type": {
-                            "kind": "enum_val",
-                            "size": 1,
+                            "kind": "int",
+                            "type": "u8",
                             "enum_def": "Message" 
                         }
                     },
                     {
                         "name": "soundEvent",
                         "type": {
-                            "kind": "enum_val",
-                            "size": 2,
+                            "kind": "int",
+                            "type": "u16",
                             "enum_def": "SoundEvent" 
                         }
                     }

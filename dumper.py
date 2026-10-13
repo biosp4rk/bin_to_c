@@ -1,7 +1,7 @@
 from typing import BinaryIO
 
 from var_def import (
-    VarDef, IntBase, Integer, Boolean, EnumVal,
+    VarDef, IntBase, Integer, Boolean,
     Pointer, Struct, ArrFormat, Array,
 )
 
@@ -44,26 +44,21 @@ class Dumper:
         if isinstance(var_def, Integer):
             size = var_def.size()
             val = self.read_int(size, var_def.signed())
+            if var_def.enum_def is not None and val in var_def.enum_def:
+                return var_def.enum_def[val]
             if var_def.base == IntBase.DEC:
-                s = f"{val}"
+                return f"{val}"
             elif var_def.base == IntBase.HEX:
                 sign = "-" if val < 0 else ""
                 val = abs(val)
-                s = f"{sign}0x{val:X}"
-            return s
+                return f"{sign}0x{val:X}"
+            else:
+                raise ValueError(var_def.base)
         elif isinstance(var_def, Boolean):
             val = self.read_int(var_def.size, False)
             if val > 1:
                 raise ValueError("Invalid bool value")
-            s = "FALSE" if val == 0 else "TRUE"
-            return s
-        elif isinstance(var_def, EnumVal):
-            val = self.read_int(var_def.size, False)
-            if val in var_def.enum_def:
-                s = var_def.enum_def[val]
-            else:
-                s = f"{val}"
-            return s
+            return "FALSE" if val == 0 else "TRUE"
         elif isinstance(var_def, Struct):
             return self._dump_struct(var_def, depth, parents)
         elif isinstance(var_def, Array):

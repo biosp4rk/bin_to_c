@@ -75,13 +75,13 @@
             "count": 3,
             "items": [
                 {
-                    "kind": "enum_val",
-                    "size": 1,
+                    "kind": "int",
+                    "type": "u8",
                     "enum_def": ["FOO_0", "FOO_1"]
                 },
                 {
-                    "kind": "enum_val",
-                    "size": 1,
+                    "kind": "int",
+                    "type": "u8",
                     "enum_def": ["BAR_0", "BAR_1"]
                 },
                 {

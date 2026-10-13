@@ -6,8 +6,8 @@ from bin_to_c import (
 )
 from dumper import Dumper
 from var_def import (
-    EnumDef, VarDef, IntType, IntBase, Integer, Boolean,
-    EnumVal, Pointer, Struct, ArrFormat, Array,
+    EnumDef, VarDef, IntType, IntBase, Integer,
+    Boolean, Pointer, Struct, ArrFormat, Array,
 )
 
 if __name__ == "__main__":
@@ -46,12 +46,12 @@ if __name__ == "__main__":
             0, "MyInt", "const u8"
         ),
         DataItem(
-            Boolean(1),
-            1, "MyBool", "const bool8"
+            Integer(IntType.U8, enum_def={0: "VAL_0"}),
+            1, "MyEnum", "const u8"
         ),
         DataItem(
-            EnumVal(1, {0: "VAL_0"}),
-            2, "MyEnum", "const u8"
+            Boolean(1),
+            2, "MyBool", "const bool8"
         ),
         DataItem(
             Pointer("const MyType*"),

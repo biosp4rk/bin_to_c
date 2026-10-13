@@ -3,7 +3,7 @@ import unittest
 
 from dumper import ROM_OFFSET, Dumper
 from var_def import (
-    IntType, IntBase, Integer, Boolean, EnumVal,
+    IntType, IntBase, Integer, Boolean,
     Pointer, Struct, ArrFormat, Array
 )
 
@@ -33,6 +33,30 @@ class TestDumperInteger(unittest.TestCase):
         s = d.dump(0, Integer(IntType.S8, IntBase.HEX))
         self.assertEqual(s, "-0x80")
 
+    def test_enum_match(self):
+        rom = io.BytesIO(b"\x01")
+        d = Dumper(rom)
+        ev = Integer(IntType.U8, enum_def={0: "ZERO", 1: "ONE"})
+        self.assertEqual(d.dump(0, ev), "ONE")
+
+    def test_enum_signed_match(self):
+        rom = io.BytesIO(b"\xFF")
+        d = Dumper(rom)
+        ev = Integer(IntType.S8, enum_def={-1: "NONE"})
+        self.assertEqual(d.dump(0, ev), "NONE")
+
+    def test_enum_fallback(self):
+        rom = io.BytesIO(b"\x02")
+        d = Dumper(rom)
+        ev = Integer(IntType.U8, enum_def={0: "ZERO"})
+        self.assertEqual(d.dump(0, ev), "2")
+
+    def test_enum_fallback_hex(self):
+        rom = io.BytesIO(b"\x02")
+        d = Dumper(rom)
+        ev = Integer(IntType.U8, IntBase.HEX, {0: "ZERO"})
+        self.assertEqual(d.dump(0, ev), "0x2")
+
 
 class TestDumperBoolean(unittest.TestCase):
     def test_false_true(self):
@@ -46,20 +70,6 @@ class TestDumperBoolean(unittest.TestCase):
         d = Dumper(rom)
         with self.assertRaises(ValueError):
             d.dump(0, Boolean(1))
-
-
-class TestDumperEnum(unittest.TestCase):
-    def test_enum_match(self):
-        rom = io.BytesIO(b"\x01")
-        d = Dumper(rom)
-        ev = EnumVal(1, {0: "ZERO", 1: "ONE"})
-        self.assertEqual(d.dump(0, ev), "ONE")
-
-    def test_enum_fallback(self):
-        rom = io.BytesIO(b"\x02")
-        d = Dumper(rom)
-        ev = EnumVal(1, {0: "ZERO"})
-        self.assertEqual(d.dump(0, ev), "2")
 
 
 class TestDumperPointer(unittest.TestCase):

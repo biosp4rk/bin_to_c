@@ -8,7 +8,7 @@ from bin_to_c import (
 )
 from var_def import (
     IntType, IntBase, Integer, Boolean,
-    EnumVal, Pointer, Struct, ArrFormat, Array
+    Pointer, Struct, ArrFormat, Array
 )
 
 
@@ -55,17 +55,17 @@ class TestParseDef(unittest.TestCase):
         self.assertEqual(vd.type, IntType.U8)
         self.assertEqual(vd.base, IntBase.HEX)
 
+    def test_parse_integer_enum(self):
+        enums = {"Name": {0: "ZERO"}}
+        vd = parse_def(
+            {"kind": "int", "type": "u8", "enum_def": "Name"},
+            {}, enums
+        )
+        self.assertEqual(vd.enum_def, {0: "ZERO"})
+
     def test_parse_boolean(self):
         vd = parse_def({"kind": "bool", "size": 1}, {}, {})
         self.assertIsInstance(vd, Boolean)
-
-    def test_parse_enum_val(self):
-        enums = {"Name": {0: "ZERO"}}
-        vd = parse_def(
-            {"kind": "enum_val", "size": 1, "enum_def": "Name"},
-            {}, enums
-        )
-        self.assertIsInstance(vd, EnumVal)
 
     def test_parse_struct(self):
         vd = parse_def(

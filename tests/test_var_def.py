@@ -1,7 +1,7 @@
 import unittest
 
 from var_def import (
-    Integer, IntType, IntBase, Boolean, EnumVal,
+    Integer, IntType, IntBase, Boolean,
     Pointer, Struct, Array, ArrFormat
 )
 
@@ -20,7 +20,14 @@ class TestInteger(unittest.TestCase):
         i = Integer(IntType.U16, IntBase.HEX)
         self.assertEqual(
             repr(i),
-            "Integer(type=IntType.U16, base=IntBase.HEX)"
+            "Integer(type=IntType.U16, base=IntBase.HEX, enum_def=None)"
+        )
+
+    def test_integer_enum_repr(self):
+        i = Integer(IntType.U16, enum_def={0: "ZERO", 1: "ONE"})
+        self.assertEqual(
+            repr(i),
+            "Integer(type=IntType.U16, base=IntBase.DEC, enum_def={0: 'ZERO', 1: 'ONE'})"
         )
 
 
@@ -35,16 +42,6 @@ class TestBoolean(unittest.TestCase):
 
     def test_repr(self):
         self.assertEqual(repr(Boolean(1)), "Boolean(size=1)")
-
-
-class TestEnumVal(unittest.TestCase):
-    def test_valid_enum(self):
-        ev = EnumVal(1, {0: "ZERO", 1: "ONE"})
-        self.assertEqual(repr(ev), "EnumVal(size=1, enum_def={0: 'ZERO', 1: 'ONE'})")
-
-    def test_invalid_size(self):
-        with self.assertRaises(ValueError):
-            EnumVal(3, {})
 
 
 class TestPointer(unittest.TestCase):
@@ -65,7 +62,7 @@ class TestStruct(unittest.TestCase):
         ])
         self.assertEqual(
             repr(s),
-            'Struct(fields=[("a", Integer(type=IntType.U8, base=IntBase.DEC)), ("b", Boolean(size=1))])'
+            'Struct(fields=[("a", Integer(type=IntType.U8, base=IntBase.DEC, enum_def=None)), ("b", Boolean(size=1))])'
         )
 
 
@@ -90,6 +87,10 @@ class TestArray(unittest.TestCase):
     def test_invalid_ascii_items(self):
         with self.assertRaises(ValueError):
             Array(2, Pointer(), ArrFormat.ASCII)
+
+    def test_invalid_ascii_enum_items(self):
+        with self.assertRaises(ValueError):
+            Array(2, Integer(IntType.U8, enum_def={0: "A"}), ArrFormat.ASCII)
 
     def test_repr_single_item(self):
         arr = Array(2, Integer(IntType.U8))

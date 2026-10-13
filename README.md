@@ -96,24 +96,26 @@ An object describing a type definition. The exact structure depends on the `kind
 
 ### Type Definition Object
 
-Each type definition object must include a `kind` field that determines its shape. Possible kinds include [`int`](#integer), [`bool`](#boolean), [`enum_val`](#enum-value), [`pointer`](#pointer), [`array`](#array), and [`struct`](#struct).
+Each type definition object must include a `kind` field that determines its shape. Possible kinds include [`int`](#integer), [`bool`](#boolean), [`pointer`](#pointer), [`array`](#array), and [`struct`](#struct).
 
 #### Integer
 
-Integers can be 8, 16, or 32 bit, signed or unsigned, and represented using decimal or hexidecimal.
+Integers can be 8, 16, or 32 bit, signed or unsigned, and represented using decimal or hexidecimal. If `enum_def` is provided, the integer will be replaced with an enum value name if one matches. If it doesn't match, it will fall back to the provided sign and base. `enum_def` can be a full enum definition, or the name of an enum definition from the context file (see [Enum Definition Object](#enum-definition-object)).
 
 ```json
 {
   "kind": "int",
   "type": "u8",
-  "base": "hex"
+  "base": "hex",
+  "enum_def": "MyEnum"
 }
 ```
 
-| Field  | Description                                   |
-| ------ | --------------------------------------------- |
-| `type` | One of `u8`, `u16`, `u32`, `s8`, `s16`, `s32` |
-| `base` | Optional: `dec` or `hex` (default: `dec`)     |
+| Field      | Description                                   |
+| ---------- | --------------------------------------------- |
+| `type`     | One of `u8`, `u16`, `u32`, `s8`, `s16`, `s32` |
+| `base`     | Optional: `dec` or `hex` (default: `dec`)     |
+| `enum_def` | Optional: Enum name or full enum definition   |
 
 ---
 
@@ -131,26 +133,6 @@ Boolean is intended for integers that should be represented as either `TRUE` or 
 | Field  | Description                             |
 | ------ | --------------------------------------- |
 | `size` | Integer size in bytes: `1`, `2`, or `4` |
-
----
-
-#### Enum Value
-
-This is intended for integers that should be represented as enum value names. `enum_def` can be a full enum definition, or the name of an enum definition from the context file (see [Enum Definition Object](#enum-definition-object)).
-
-```json
-{
-  "kind": "enum_val",
-  "size": 2,
-  "enum_def": "MyEnum"
-}
-```
-
-| Field      | Description                             |
-| ---------- | --------------------------------------- |
-| `size`     | Integer size in bytes: `1`, `2`, or `4` |
-| `enum_def` | Enum name or full enum definition       |
-
 
 ---
 
@@ -316,12 +298,13 @@ The first name is assigned 0, and each subsequent name is assigned a value 1 hig
 
 #### 2. An Object of Value/Name Pairs
 
-Each key is the value assigned to each name. Note that JSON keys cannot be integers, but you can use decimal or hex strings.
+Each key is the value assigned to each name. Note that JSON keys cannot be integers, but you can use decimal or hex strings. Negative values are allowed, but they only match when the integer type is signed.
 
 ```json
 {
-  "1": "VAL_1",
-  "3": "VAL_3",
+  "-1": "VAL_M1",
+  "2": "VAL_2",
+  "5": "VAL_5",
   "7": "VAL_7"
 }
 ```
@@ -386,16 +369,16 @@ Input:
           "type": { "kind": "int", "type": "s8" }
         },
         {
-          "name": "myBool",
-          "type": { "kind": "bool", "size": 1 }
-        },
-        {
           "name": "myEnum",
           "type": {
-            "kind": "enum_val",
-            "size": 1,
+            "kind": "int",
+            "type": "u8",
             "enum_def": { "0x10": "VAL_10" }
           }
+        },
+        {
+          "name": "myBool",
+          "type": { "kind": "bool", "size": 1 }
         },
         {
           "name": "myPtr",
@@ -426,8 +409,8 @@ Output:
 // 0x100
 const struct MyStruct MyData = {
     .myInt = -1,
-    .myBool = TRUE,
     .myEnum = VAL_10,
+    .myBool = TRUE,
     .myPtr = (const u16*)0x8000100,
     .myArray = { 1, 2, 3, 4 }
 };
@@ -446,8 +429,8 @@ Here's the example above written in python:
 DataItem(
     Struct([
         ("myInt", Integer(IntType.S8)),
+        ("myEnum", Integer(IntType.U8, enum_def={0x10: "VAL_10"})),
         ("myBool", Boolean(1)),
-        ("myEnum", EnumVal(1, {0x10: "VAL_10"})),
         ("myPtr", Pointer("const u16*")),
         ("myArray", Array(
             4, Integer(IntType.U8), ArrFormat.SINGLE_LINE
