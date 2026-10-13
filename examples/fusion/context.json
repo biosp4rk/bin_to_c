@@ -1,19 +1,19 @@
 {
     "enums": {
         "DemoId": [
-                "DEMO_ID_SECTOR_2",
-                "DEMO_ID_SECTOR_5",
-                "DEMO_ID_SECTOR_4",
-                "DEMO_ID_MAIN_DECK",
-                "DEMO_ID_WALL_JUMP",
-                "DEMO_ID_SHINESPARK",
-                "DEMO_ID_LADDERS",
-                "DEMO_ID_POWER_BOMBS",
-                "DEMO_ID_SECTOR_3",
-                "DEMO_ID_SECTOR_6",
-                "DEMO_ID_ARACHNUS",
-                "DEMO_ID_SCREW_ATTACK",
-                "DEMO_ID_END"
+            "DEMO_ID_SECTOR_2",
+            "DEMO_ID_SECTOR_5",
+            "DEMO_ID_SECTOR_4",
+            "DEMO_ID_MAIN_DECK",
+            "DEMO_ID_WALL_JUMP",
+            "DEMO_ID_SHINESPARK",
+            "DEMO_ID_LADDERS",
+            "DEMO_ID_POWER_BOMBS",
+            "DEMO_ID_SECTOR_3",
+            "DEMO_ID_SECTOR_6",
+            "DEMO_ID_ARACHNUS",
+            "DEMO_ID_SCREW_ATTACK",
+            "DEMO_ID_END"
         ],
         "Area": [
             "AREA_MAIN_DECK",

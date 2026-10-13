@@ -7,7 +7,7 @@
         },
         "Dec": {
             "type": "string",
-            "pattern": "^[0-9]+$"
+            "pattern": "^(0|[1-9][0-9]*)$"
         },
         "Hex": {
             "type": "string",
@@ -16,15 +16,14 @@
         "IntValue": {
             "oneOf": [
                 {
-                    "type": "integer"
+                    "type": "integer",
+                    "minimum": 0
                 },
                 {
-                    "type": "string",
-                    "pattern": "^[0-9]+$"
+                    "$ref": "#/definitions/Dec"
                 },
                 {
-                    "type": "string",
-                    "pattern": "^0[Xx][0-9A-Fa-f]+$"
+                    "$ref": "#/definitions/Hex"
                 }
             ]
         },
@@ -47,13 +46,14 @@
                 {
                     "type": "object",
                     "patternProperties": {
-                        "^[0-9]+$": {
+                        "^(0|[1-9][0-9]*)$": {
                             "$ref": "#/definitions/Name"
                         },
-                        "^0[Xx][0-9A-Fa-f]$": {
+                        "^0[Xx][0-9A-Fa-f]+$": {
                             "$ref": "#/definitions/Name"
                         }
-                    }
+                    },
+                    "additionalProperties": false
                 }
             ]
         },
@@ -67,7 +67,7 @@
                 }
             ]
         },
-        "VarDef": {
+        "FullVarDef": {
             "type": "object",
             "properties": {
                 "kind": {
@@ -126,7 +126,7 @@
                             "$ref": "#/definitions/EnumDef"
                         }
                     },
-                    "required": ["kind", "size"],
+                    "required": ["kind", "size", "enum_def"],
                     "additionalProperties": false
                 },
                 {
@@ -149,6 +149,7 @@
                         "fields": {
                             "type": "array",
                             "items": {
+                                "type": "object",
                                 "properties": {
                                     "name": {
                                         "$ref": "#/definitions/Name"
@@ -156,7 +157,9 @@
                                     "type": {
                                         "$ref": "#/definitions/VarDef"
                                     }
-                                }
+                                },
+                                "required": ["name", "type"],
+                                "additionalProperties": false
                             }
                         }
                     },
@@ -169,8 +172,14 @@
                             "const": "array"
                         },
                         "count": {
-                            "$ref": "#/definitions/IntValue",
-                            "minimum": 1
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/IntValue"
+                                },
+                                {
+                                    "minimum": 1
+                                }
+                            ]
                         },
                         "items": {
                             "oneOf": [
@@ -206,6 +215,16 @@
                     },
                     "required": ["kind", "count", "items"],
                     "additionalProperties": false
+                }
+            ]
+        },
+        "VarDef": {
+            "oneOf": [
+                {
+                    "$ref": "#/definitions/Name"
+                },
+                {
+                    "$ref": "#/definitions/FullVarDef"
                 }
             ]
         }

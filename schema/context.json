@@ -4,14 +4,20 @@
     "properties": {
         "enums": {
             "type": "object",
+            "propertyNames": {
+                "$ref": "urn:definitions#/definitions/Name"
+            },
             "additionalProperties": {
-                "$ref": "urn:definitions#/definitions/IntSize"
+                "$ref": "urn:definitions#/definitions/FullEnumDef"
             }
         },
         "defs": {
-            "type": "array",
-            "items": {
-                "$ref": "urn:definitions#/definitions/VarDef"
+            "type": "object",
+            "propertyNames": {
+                "$ref": "urn:definitions#/definitions/Name"
+            },
+            "additionalProperties": {
+                "$ref": "urn:definitions#/definitions/FullVarDef"
             }
         }
     },

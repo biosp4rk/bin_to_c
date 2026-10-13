@@ -8,14 +8,7 @@
                 "type": "boolean"
             },
             "def": {
-                "oneOf": [
-                    {
-                        "$ref": "urn:definitions#/definitions/Name"
-                    },
-                    {
-                        "$ref": "urn:definitions#/definitions/VarDef"
-                    }
-                ]
+                "$ref": "urn:definitions#/definitions/VarDef"
             },
             "decl": {
                 "type": "string"
@@ -41,6 +34,23 @@
             }
         },
         "required": ["def", "items"],
-        "additionalProperties": false
+        "additionalProperties": false,
+        "if": {
+            "properties": {
+                "arrays": {
+                    "const": true
+                }
+            },
+            "required": ["arrays"]
+        },
+        "then": {
+            "properties": {
+                "items": {
+                    "items": {
+                        "required": ["addr", "count"]
+                    }
+                }
+            }
+        }
     }
 }
