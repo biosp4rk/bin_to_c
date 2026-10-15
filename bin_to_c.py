@@ -6,7 +6,7 @@ from typing import Optional, Union, TextIO
 from dumper import ROM_OFFSET, Dumper
 from var_def import (
     EnumDef, VarDef, IntType, IntBase, Integer,
-    Boolean, Pointer, Struct, ArrFormat, Array,
+    Boolean, Pointer, Field, Struct, ArrFormat, Array,
 )
 
 
@@ -74,7 +74,11 @@ def parse_def(
             return Boolean(parse_int(obj["size"]))
         case "struct":
             fields = [
-                (f["name"], parse_def(f["type"], defs, enums))
+                Field(
+                    f["name"],
+                    parse_def(f["type"], defs, enums),
+                    f.get("bits")
+                )
                 for f in obj["fields"]
             ]
             return Struct(fields)

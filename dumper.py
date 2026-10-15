@@ -44,21 +44,10 @@ class Dumper:
         if isinstance(var_def, Integer):
             size = var_def.size()
             val = self.read_int(size, var_def.signed())
-            if var_def.enum_def is not None and val in var_def.enum_def:
-                return var_def.enum_def[val]
-            if var_def.base == IntBase.DEC:
-                return f"{val}"
-            elif var_def.base == IntBase.HEX:
-                sign = "-" if val < 0 else ""
-                val = abs(val)
-                return f"{sign}0x{val:X}"
-            else:
-                raise ValueError(var_def.base)
+            return self._dump_integer(var_def, val)
         elif isinstance(var_def, Boolean):
             val = self.read_int(var_def.size, False)
-            if val > 1:
-                raise ValueError("Invalid bool value")
-            return "FALSE" if val == 0 else "TRUE"
+            return self._dump_boolean(val)
         elif isinstance(var_def, Struct):
             return self._dump_struct(var_def, depth, parents)
         elif isinstance(var_def, Array):
@@ -66,19 +55,59 @@ class Dumper:
         elif isinstance(var_def, Pointer):
             return self._dump_pointer(var_def, parents)
 
+    def _dump_integer(self, integer: Integer, value: int) -> str:
+        if integer.enum_def is not None and value in integer.enum_def:
+            return integer.enum_def[value]
+        if integer.base == IntBase.DEC:
+            return f"{value}"
+        elif integer.base == IntBase.HEX:
+            sign = "-" if value < 0 else ""
+            value = abs(value)
+            return f"{sign}0x{value:X}"
+        else:
+            raise ValueError(integer.base)
+
+    def _dump_boolean(self, value: int) -> str:
+        if value > 1:
+            raise ValueError("Invalid bool value")
+        return "FALSE" if value == 0 else "TRUE"
 
     def _dump_struct(self, struct: Struct, depth: int, parents: list[str]) -> str:
-        self._align(4)
-        lines = ["{"]
         indent = depth * TAB
         indent2 = indent + TAB
-        for i, field in enumerate(struct.fields):
-            name, f_def = field
-            s = self._dump(f_def, depth + 1, parents + [name])
-            s = f"{indent2}.{name} = {s}"
+        lines = ["{"]
+        self._align(4)
+        start = self.rom.tell()
+        bit_pos = 0
+        for i, f in enumerate(struct.fields):
+            if f.bits is None:
+                # Seek to the start of the next byte
+                r = bit_pos % 8
+                if r > 0:
+                    bit_pos += 8 - r
+                    self.rom.seek(start + bit_pos // 8)
+                s = self._dump(f.type, depth + 1, parents + [f.name])
+                bit_pos = (self.rom.tell() - start) * 8
+            else:
+                first = bit_pos // 8
+                last = (bit_pos + f.bits - 1) // 8
+                self.rom.seek(start + first)
+                raw = int.from_bytes(self.rom.read(last - first + 1), "little")
+                val = (raw >> (bit_pos % 8)) & ((1 << f.bits) - 1)
+                if isinstance(f.type, Integer):
+                    if f.type.signed() and val & (1 << (f.bits - 1)):
+                        val -= 1 << f.bits
+                    s = self._dump_integer(f.type, val)
+                elif isinstance(f.type, Boolean):
+                    s = self._dump_boolean(val)
+                else:
+                    raise ValueError(type(f.type))
+                bit_pos += f.bits
+            s = f"{indent2}.{f.name} = {s}"
             if i < len(struct.fields) - 1:
                 s += ","
             lines.append(s)
+        self._align(4)
         s = indent + "}"
         lines.append(s)
         return "\n".join(lines)

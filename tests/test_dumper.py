@@ -4,7 +4,7 @@ import unittest
 from dumper import ROM_OFFSET, Dumper
 from var_def import (
     IntType, IntBase, Integer, Boolean,
-    Pointer, Struct, ArrFormat, Array
+    Pointer, Field, Struct, ArrFormat, Array
 )
 
 
@@ -100,14 +100,69 @@ class TestDumperStruct(unittest.TestCase):
         rom = io.BytesIO(b"\x01\x02")
         d = Dumper(rom)
         s = Struct([
-            ("a", Integer(IntType.U8)),
-            ("b", Integer(IntType.U8)),
+            Field("a", Integer(IntType.U8)),
+            Field("b", Integer(IntType.U8)),
         ])
         out = d.dump(0, s)
-        self.assertIn(".a = 1", out)
-        self.assertIn(".b = 2", out)
-        self.assertTrue(out.startswith("{"))
-        self.assertTrue(out.endswith("}"))
+        self.assertEqual(out, "\n".join([
+            "{",
+            "    .a = 1,",
+            "    .b = 2",
+            "}"
+        ]))
+
+    def test_bit_field_basic(self):
+        rom = io.BytesIO(b"\x00\x00\x00\x00\xFF\xBA\x0C")
+        d = Dumper(rom)
+        s = Struct([
+            Field("a", Integer(IntType.U8, IntBase.HEX)),
+            Field("b", Integer(IntType.U8, IntBase.HEX), 4),
+            Field("c", Integer(IntType.U8, IntBase.HEX), 4),
+            Field("d", Integer(IntType.U8, IntBase.HEX), 4)
+        ])
+        out = d.dump(4, s)
+        self.assertEqual(out, "\n".join([
+            "{",
+            "    .a = 0xFF,",
+            "    .b = 0xA,",
+            "    .c = 0xB,",
+            "    .d = 0xC",
+            "}"
+        ]))
+
+    def test_bit_field_cross_boundary(self):
+        rom = io.BytesIO(b"\xFF\xFF\x03")
+        d = Dumper(rom)
+        s = Struct([
+            Field("a", Integer(IntType.U16, IntBase.HEX), 14),
+            Field("b", Integer(IntType.U8, IntBase.HEX), 4),
+            Field("c", Integer(IntType.U8, IntBase.HEX), 6),
+        ])
+        out = d.dump(0, s)
+        self.assertEqual(out, "\n".join([
+            "{",
+            "    .a = 0x3FFF,",
+            "    .b = 0xF,",
+            "    .c = 0x0",
+            "}"
+        ]))
+
+    def test_bit_field_signed(self):
+        rom = io.BytesIO(b"\x85")
+        d = Dumper(rom)
+        s = Struct([
+            Field("a", Boolean(1), 1),
+            Field("b", Integer(IntType.S8), 2),
+            Field("c", Integer(IntType.S8), 5),
+        ])
+        out = d.dump(0, s)
+        self.assertEqual(out, "\n".join([
+            "{",
+            "    .a = TRUE,",
+            "    .b = -2,",
+            "    .c = -16",
+            "}"
+        ]))
 
 
 class TestDumperArray(unittest.TestCase):
@@ -116,9 +171,13 @@ class TestDumperArray(unittest.TestCase):
         d = Dumper(rom)
         arr = Array(3, Integer(IntType.U8))
         out = d.dump(0, arr)
-        self.assertIn("1", out)
-        self.assertIn("2", out)
-        self.assertIn("3", out)
+        self.assertEqual(out, "\n".join([
+            "{",
+            "    1,",
+            "    2,",
+            "    3",
+            "}"
+        ]))
 
     def test_ascii_array(self):
         rom = io.BytesIO(b"Test\x00")

@@ -187,7 +187,7 @@ If the format is set to `enum_index`, then `enum_def` needs to be provided.
 
 #### Struct
 
-Structs consist of an array of fields, where each field has a name and a type. The type can be any type definition, specified with a type name or a full type definition.
+Structs consist of an array of fields, where each field has a name, a type, and an optional bit width. The type can be any type definition, specified with a type name or a full type definition.
 
 ```json
 {
@@ -199,17 +199,24 @@ Structs consist of an array of fields, where each field has a name and a type. T
     },
     {
       "name": "field2",
-      "type": { "kind": "int", "type": "u8" }
+      "type": { "kind": "bool", "size": 1 },
+      "bits": 1
+    },
+    {
+      "name": "field3",
+      "type": { "kind": "int", "type": "u8" },
+      "bits": 7
     }
   ]
 }
 ```
 
-| Field         | Description                       |
-| ------------- | --------------------------------- |
-| `fields`      | Array of struct fields            |
-| `fields.name` | Field name                        |
-| `fields.type` | Type name or full type definition |
+| Field         | Description                                               |
+| ------------- | --------------------------------------------------------- |
+| `fields`      | Array of struct fields                                    |
+| `fields.name` | Field name                                                |
+| `fields.type` | Type name or full type definition                         |
+| `fields.bits` | Optional bit width (only allowed with integer or boolean) |
 
 ---
 
@@ -428,11 +435,11 @@ Here's the example above written in python:
 ```python
 DataItem(
     Struct([
-        ("myInt", Integer(IntType.S8)),
-        ("myEnum", Integer(IntType.U8, enum_def={0x10: "VAL_10"})),
-        ("myBool", Boolean(1)),
-        ("myPtr", Pointer("const u16*")),
-        ("myArray", Array(
+        Field("myInt", Integer(IntType.S8)),
+        Field("myEnum", Integer(IntType.U8, enum_def={0x10: "VAL_10"})),
+        Field("myBool", Boolean(1)),
+        Field("myPtr", Pointer("const u16*")),
+        Field("myArray", Array(
             4, Integer(IntType.U8), ArrFormat.SINGLE_LINE
         ))
     ]),

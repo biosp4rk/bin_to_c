@@ -1,7 +1,7 @@
 from abc import ABC
 from dataclasses import dataclass
 from enum import Enum, auto
-from typing import Union
+from typing import Optional, Union
 
 
 EnumDef = dict[int, str]
@@ -76,11 +76,36 @@ class Pointer(VarDef):
 
 
 @dataclass(frozen=True)
-class Struct(VarDef):
-    fields: list[tuple[str, VarDef]]
-    
+class Field:
+    name: str
+    type: VarDef
+    bits: Optional[int] = None
+
+    def __post_init__(self):
+        if self.bits is not None:
+            if isinstance(self.type, Integer):
+                size = self.type.size()
+            elif isinstance(self.type, Boolean):
+                size = self.type.size
+            else:
+                raise ValueError("Bit fields must be integer or boolean")
+            if self.bits <= 0 or self.bits > size * 8:
+                raise ValueError(f"Invalid bit width: {self.bits}")
+
     def __repr__(self) -> str:
-        fs = ", ".join(f'("{n}", {f!r})' for n, f in self.fields)
+        return f'Field(name="{self.name}", type={self.type!r}, bits={self.bits})'
+
+
+@dataclass(frozen=True)
+class Struct(VarDef):
+    fields: list[Field]
+
+    def __post_init__(self):
+        if len(self.fields) == 0:
+            raise ValueError("Structs cannot be empty")
+
+    def __repr__(self) -> str:
+        fs = ", ".join(repr(f) for f in self.fields)
         return f"Struct(fields=[{fs}])"
 
 

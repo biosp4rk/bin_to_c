@@ -7,7 +7,7 @@ from bin_to_c import (
 from dumper import Dumper
 from var_def import (
     EnumDef, VarDef, IntType, IntBase, Integer,
-    Boolean, Pointer, Struct, ArrFormat, Array,
+    Boolean, Pointer, Field, Struct, ArrFormat, Array,
 )
 
 if __name__ == "__main__":
@@ -58,7 +58,7 @@ if __name__ == "__main__":
             4, "MyPointer", "const MyType*"
         ),
         DataItem(
-            Struct([("field0", Integer(IntType.U8))]),
+            Struct([Field("field0", Integer(IntType.U8))]),
             8, "MyStruct", "const MyType"
         ),
         DataItem(

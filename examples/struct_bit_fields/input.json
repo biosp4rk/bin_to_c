@@ -1,0 +1,156 @@
+[
+    {
+        "def": {
+            "kind": "struct",
+            "fields": [
+                {
+                    "name": "bit_0",
+                    "type": {
+                        "kind": "int",
+                        "type": "u8",
+                        "base": "hex"
+                    },
+                    "bits": 4
+                },
+                {
+                    "name": "bit_4",
+                    "type": {
+                        "kind": "int",
+                        "type": "u32",
+                        "base": "hex"
+                    },
+                    "bits": 4
+                },
+                {
+                    "name": "bit_8",
+                    "type": {
+                        "kind": "int",
+                        "type": "u8",
+                        "base": "hex"
+                    },
+                    "bits": 4
+                }
+            ]
+        },
+        "decl": "const struct BitFields1",
+        "items": [
+            {"addr": "0x0", "name": "BitFields1_00"}
+        ]
+    },
+    {
+        "def": {
+            "kind": "struct",
+            "fields": [
+                {
+                    "name": "bit_0",
+                    "type": {
+                        "kind": "int",
+                        "type": "u32",
+                        "base": "hex"
+                    },
+                    "bits": 30
+                },
+                {
+                    "name": "bit_30",
+                    "type": {
+                        "kind": "int",
+                        "type": "u8",
+                        "base": "hex"
+                    },
+                    "bits": 4
+                }
+            ]
+        },
+        "decl": "const struct BitFields2",
+        "items": [
+            {"addr": "0x4", "name": "BitFields2_04"}
+        ]
+    },
+    {
+        "def": {
+            "kind": "struct",
+            "fields": [
+                {
+                    "name": "bool_size_1",
+                    "type": {
+                        "kind": "bool",
+                        "size": 1
+                    },
+                    "bits": 1
+                },
+                {
+                    "name": "s8_size_3",
+                    "type": {
+                        "kind": "int",
+                        "type": "s8"
+                    },
+                    "bits": 3
+                },
+                {
+                    "name": "u8_size_2",
+                    "type": {
+                        "kind": "int",
+                        "type": "u8"
+                    },
+                    "bits": 2
+                },
+                {
+                    "name": "s16_size_10",
+                    "type": {
+                        "kind": "int",
+                        "type": "s16"
+                    },
+                    "bits": 10
+                }
+            ]
+        },
+        "decl": "const struct BitFields3",
+        "items": [
+            {"addr": "0xC", "name": "BitFields3_0C"}
+        ]
+    },
+    {
+        "def": {
+            "kind": "struct",
+            "fields": [
+                {
+                    "name": "tile",
+                    "type": {
+                        "kind": "int",
+                        "type": "u16",
+                        "base": "hex"
+                    },
+                    "bits": 10
+                },
+                {
+                    "name": "xFlip",
+                    "type": {
+                        "kind": "bool",
+                        "size": 2
+                    },
+                    "bits": 1
+                },
+                {
+                    "name": "yFlip",
+                    "type": {
+                        "kind": "bool",
+                        "size": 2
+                    },
+                    "bits": 1
+                },
+                {
+                    "name": "palette",
+                    "type": {
+                        "kind": "int",
+                        "type": "u16"
+                    },
+                    "bits": 4
+                }
+            ]
+        },
+        "decl": "const struct BitFields4",
+        "items": [
+            {"addr": "0x10", "name": "BitFields4_10"}
+        ]
+    }
+]

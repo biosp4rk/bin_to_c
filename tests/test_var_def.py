@@ -2,7 +2,7 @@ import unittest
 
 from var_def import (
     Integer, IntType, IntBase, Boolean,
-    Pointer, Struct, Array, ArrFormat
+    Pointer, Field, Struct, Array, ArrFormat
 )
 
 
@@ -54,17 +54,42 @@ class TestPointer(unittest.TestCase):
         self.assertEqual(repr(p), 'Pointer(type_cast="MyStruct")')
 
 
+class TestField(unittest.TestCase):
+    def test_bits_valid(self):
+        Field("a", Integer(IntType.U8), 1)
+        Field("b", Integer(IntType.S8), 8)
+        Field("c", Integer(IntType.U32), 32)
+
+    def test_bits_invalid_type(self):
+        with self.assertRaises(ValueError):
+            Field("a", Pointer(), 4)
+
+    def test_bits_out_of_range(self):
+        cases = [
+            (Integer(IntType.U8), 0),
+            (Integer(IntType.U8), -1),
+            (Integer(IntType.U32), 33),
+            (Boolean(1), 9)
+        ]
+        for var_def, bits in cases:
+            with self.assertRaises(ValueError):
+                Field("a", var_def, bits)
+
+
 class TestStruct(unittest.TestCase):
+    def test_empty_struct(self):
+        with self.assertRaises(ValueError):
+            Struct([])
+
     def test_repr(self):
         s = Struct([
-            ("a", Integer(IntType.U8)),
-            ("b", Boolean(1))
+            Field("a", Integer(IntType.U8)),
+            Field("b", Boolean(1))
         ])
         self.assertEqual(
             repr(s),
-            'Struct(fields=[("a", Integer(type=IntType.U8, base=IntBase.DEC, enum_def=None)), ("b", Boolean(size=1))])'
+            'Struct(fields=[Field(name="a", type=Integer(type=IntType.U8, base=IntBase.DEC, enum_def=None), bits=None), Field(name="b", type=Boolean(size=1), bits=None)])'
         )
-
 
 class TestArray(unittest.TestCase):
     def test_invalid_count(self):

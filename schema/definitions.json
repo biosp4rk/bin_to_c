@@ -144,6 +144,11 @@
                                     },
                                     "type": {
                                         "$ref": "#/definitions/VarDef"
+                                    },
+                                    "bits": {
+                                        "type": "integer",
+                                        "minimum": 1,
+                                        "maximum": 32
                                     }
                                 },
                                 "required": ["name", "type"],
