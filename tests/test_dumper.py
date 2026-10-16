@@ -186,6 +186,13 @@ class TestDumperArray(unittest.TestCase):
         out = d.dump(0, arr)
         self.assertEqual('"Test"', out)
 
+    def test_escaped_ascii_array(self):
+        rom = io.BytesIO(b'\t"\\')
+        d = Dumper(rom)
+        arr = Array(3, Integer(IntType.S8), ArrFormat.ASCII)
+        out = d.dump(0, arr)
+        self.assertEqual(r'"\t\"\\"', out)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -136,7 +136,7 @@ def parse_symbols(fp: TextIO) -> dict[int, str]:
             continue
         parts = line.split()
         if len(parts) != 2:
-            raise ValueError()
+            raise ValueError(f"Invalid sym file line: {line}")
         # Get name
         addr_str, name = parts
         if name in names:
@@ -205,7 +205,8 @@ def dump_items(dumper: Dumper, items: list[DataItem]) -> list[str]:
         data_str = dumper.dump(item.addr, item.var_def, item.name)
         if item.name:
             arr_str = item.array_str()
-            data_str = f"{item.decl} {item.name}{arr_str} = {data_str};"
+            decl = f"{item.decl} " if item.decl else ""
+            data_str = f"{decl}{item.name}{arr_str} = {data_str};"
         c_lines.append(data_str)
         if i < len(items) - 1:
             c_lines.append("")
@@ -214,8 +215,8 @@ def dump_items(dumper: Dumper, items: list[DataItem]) -> list[str]:
 
 def main(options: Options) -> MainResult:
     # Parse context
-    enums: dict[str, VarDef] = {}
-    defs: dict[str, EnumDef] = {}
+    enums: dict[str, EnumDef] = {}
+    defs: dict[str, VarDef] = {}
     if options.context_file:
         with open(options.context_file) as fp:
             enums, defs = parse_context(fp)

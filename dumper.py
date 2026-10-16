@@ -9,13 +9,15 @@ TAB_SIZE = 4
 TAB = " " * TAB_SIZE
 
 ROM_OFFSET = 0x800_0000
-ROM_SIZE = 0x80_0000
+MAX_ROM_SIZE = 0x200_0000 # 32 MB
 
 CHAR_MAP = {
     0x0: r"\0",
     0x9: r"\t",
     0xA: r"\n",
     0xD: r"\r",
+    0x22: r"\"",
+    0x5C: r"\\"
 }
 
 
@@ -54,6 +56,8 @@ class Dumper:
             return self._dump_array(var_def, depth, parents)
         elif isinstance(var_def, Pointer):
             return self._dump_pointer(var_def, parents)
+        else:
+            raise TypeError(type(var_def))
 
     def _dump_integer(self, integer: Integer, value: int) -> str:
         if integer.enum_def is not None and value in integer.enum_def:
@@ -127,7 +131,12 @@ class Dumper:
         if array.format == ArrFormat.ASCII:
             assert isinstance(arr_items, Integer) and arr_items.size() == 1
             vals = bytes(self._read_8(False) for _ in range(array.count)).rstrip(b"\x00")
-            s = "".join(CHAR_MAP[v] if v in CHAR_MAP else chr(v) for v in vals)
+            s = "".join(
+                CHAR_MAP[v] if v in CHAR_MAP
+                else chr(v) if 0x20 <= v < 0x7F
+                else f"\\{v:03o}"
+                for v in vals
+            )
             lines.append(f'"{s}"')
         else:
             for i in range(array.count):
@@ -204,9 +213,10 @@ class Dumper:
         return val
 
     def _read_ptr(self) -> int:
+        addr = self.rom.tell()
         val = self._read_32(False)
-        if val != 0 and (val < ROM_OFFSET or val >= ROM_OFFSET + ROM_SIZE):
-            raise ValueError(f"Invalid pointer at {self.rom.tell():X}")
+        if val != 0 and (val < ROM_OFFSET or val >= ROM_OFFSET + MAX_ROM_SIZE):
+            raise ValueError(f"Invalid pointer at {addr:X}")
         return val
 
     def read_int(self, size: int, signed: bool) -> int:

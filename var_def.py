@@ -137,6 +137,9 @@ class Array(VarDef):
             self.format not in [ArrFormat.MULTI_LINE, ArrFormat.ENUM_INDEX]
         ):
             raise ValueError(f"Array format cannot be {self.format.name} when enum def is provided")
+        # Require an enum def for enum_index format
+        if self.format == ArrFormat.ENUM_INDEX and self.enum_def is None:
+            raise ValueError("Array format enum_index requires an enum def")
         # Check item type if format is single line
         if self.format == ArrFormat.SINGLE_LINE:
             if (
