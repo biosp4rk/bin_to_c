@@ -72,8 +72,9 @@ class TestField(unittest.TestCase):
             (Boolean(1), 9)
         ]
         for var_def, bits in cases:
-            with self.assertRaises(ValueError):
-                Field("a", var_def, bits)
+            with self.subTest(var_def=var_def, bits=bits):
+                with self.assertRaises(ValueError):
+                    Field("a", var_def, bits)
 
 
 class TestStruct(unittest.TestCase):
@@ -105,7 +106,7 @@ class TestArray(unittest.TestCase):
             Array(2, Integer(IntType.U8), ArrFormat.SINGLE_LINE, {0: "A"})
 
     def test_invalid_single_line_items(self):
-        s = Struct([("a", Integer(IntType.U8))])
+        s = Struct([Field("a", Integer(IntType.U8))])
         with self.assertRaises(ValueError):
             Array(2, s, ArrFormat.SINGLE_LINE)
 

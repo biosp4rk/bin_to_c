@@ -138,7 +138,7 @@ Boolean is intended for integers that should be represented as either `TRUE` or 
 
 #### Pointer
 
-Pointers are expected to be 4 bytes and in the ROM address space (starting at 0x8000000). If a symbols file is provided, pointers can be replaced with a symbol name (see [Symbols File Format](#symbols-file-format)). An optional type cast can be specified for cases when no symbols are provided or no name is found. If no type cast is provided, `void*` will be used by default. Any pointers encountered are tracked and can be output to a file (see [Outputting Pointers](#outputting-pointers)).
+Pointers are expected to be 4 bytes and within a valid GBA memory region (or `NULL`). If a symbols file is provided, pointers can be replaced with a symbol name (see [Symbols File Format](#symbols-file-format)). An optional type cast can be specified for cases when no symbols are provided or no name is found. If no type cast is provided, `void*` will be used by default. Any pointers encountered are tracked and can be output to a file (see [Outputting Pointers](#outputting-pointers)).
 
 ```json
 {

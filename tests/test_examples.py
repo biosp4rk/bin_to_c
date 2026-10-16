@@ -26,7 +26,8 @@ def _make_example_test(example_dir: Path):
         )
 
         result = main(options)
-        self.assertTrue(len(result.c_lines) > 0)
+        self.assertGreater(len(result.c_lines), 0)
+        self.assertEqual(len(result.warnings), 0)
 
     return test
 

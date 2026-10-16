@@ -146,7 +146,6 @@ class TestParseInput(unittest.TestCase):
     def test_parse_input_items(self):
         data = [
             {
-                "kind": "items",
                 "def": {"kind": "int", "type": "u8"},
                 "items": [{"addr": "0x10", "name": "a"}]
             }

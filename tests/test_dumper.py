@@ -94,6 +94,13 @@ class TestDumperPointer(unittest.TestCase):
         out = d.dump(0, Pointer("MyType"))
         self.assertEqual(out, f"(MyType)0x{addr:x}")
 
+    def test_invalid_pointer(self):
+        rom = io.BytesIO(b"\x01\x00\x00\x00")
+        d = Dumper(rom)
+        out = d.dump(0, Pointer())
+        self.assertEqual(out, "(void*)0x1")
+        self.assertEqual(d.warnings, ["Invalid pointer 0x1 at 0x0"])
+
 
 class TestDumperStruct(unittest.TestCase):
     def test_struct(self):

@@ -8,11 +8,21 @@ from var_def import (
 TAB_SIZE = 4
 TAB = " " * TAB_SIZE
 
+MAX_ROM_SIZE = 0x200_0000
 ROM_OFFSET = 0x800_0000
-MAX_ROM_SIZE = 0x200_0000 # 32 MB
+
+GBA_MEMORY_REGIONS = [
+    (0x2000000, 0x2040000),
+    (0x3000000, 0x3008000),
+    (0x4000000, 0x4000400),
+    (0x5000000, 0x5000400),
+    (0x6000000, 0x6018000),
+    (0x7000000, 0x7000400),
+    (0x8000000, 0xA000000),
+    (0xE000000, 0xE010000)
+]
 
 CHAR_MAP = {
-    0x0: r"\0",
     0x9: r"\t",
     0xA: r"\n",
     0xD: r"\r",
@@ -27,10 +37,11 @@ class Dumper:
         self.syms = {}
         if syms is not None:
             for addr, name in syms.items():
-                if addr < ROM_OFFSET:
+                if addr < MAX_ROM_SIZE:
                     addr += ROM_OFFSET
                 self.syms[addr] = name
         self.found_ptrs: dict[int, set[str]] = {}
+        self.warnings: list[str] = []
 
     def dump(self, addr: int, var_def: VarDef, name: str = None) -> str:
         self.rom.seek(addr)
@@ -167,9 +178,16 @@ class Dumper:
         return "\n".join(lines)
 
     def _dump_pointer(self, ptr: Pointer, parents: list[str]) -> str:
-        val = self._read_ptr()
+        # Get pointer value
+        val = self._read_32(False)
         if val == 0:
             return "NULL"
+        if not any(start <= val < end for start, end in GBA_MEMORY_REGIONS):
+            addr = self.rom.tell() - 4
+            path = " (" + ",".join(parents) + ")" if parents else ""
+            msg = f"Invalid pointer 0x{val:X} at 0x{addr:X}{path}"
+            self.warnings.append(msg)
+        # Get pointer string
         if val in self.syms:
             s = self.syms[val]
             desc = s
@@ -210,13 +228,6 @@ class Dumper:
         val = b[0] | (b[1] << 8) | (b[2] << 16) | (b[3] << 24)
         if signed and val >= 0x8000_0000:
             val -= 0x1_0000_0000
-        return val
-
-    def _read_ptr(self) -> int:
-        addr = self.rom.tell()
-        val = self._read_32(False)
-        if val != 0 and (val < ROM_OFFSET or val >= ROM_OFFSET + MAX_ROM_SIZE):
-            raise ValueError(f"Invalid pointer at {addr:X}")
         return val
 
     def read_int(self, size: int, signed: bool) -> int:

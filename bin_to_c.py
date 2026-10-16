@@ -1,6 +1,7 @@
 import argparse
 from dataclasses import dataclass
 import json
+import sys
 from typing import Optional, Union, TextIO
 
 from dumper import ROM_OFFSET, Dumper
@@ -196,6 +197,7 @@ def parse_input(
 class MainResult:
     c_lines: list[str]
     pointers: dict[int, set[str]]
+    warnings: list[str]
 
 
 def dump_items(dumper: Dumper, items: list[DataItem]) -> list[str]:
@@ -236,7 +238,7 @@ def main(options: Options) -> MainResult:
         dumper = Dumper(rom, syms)
         c_lines = dump_items(dumper, items)
 
-    return MainResult(c_lines, dumper.get_pointers())
+    return MainResult(c_lines, dumper.get_pointers(), dumper.warnings)
 
 
 def write_pointers(fp: TextIO, pointers: dict[int, set[str]]) -> None:
@@ -271,6 +273,10 @@ if __name__ == "__main__":
 
     # Print C output
     print("\n".join(result.c_lines))
+
+    # Print warnings
+    for w in result.warnings:
+        print(f"Warning: {w}", file=sys.stderr)
 
     # Check to write pointers to file
     if options.ptr_output is not None:

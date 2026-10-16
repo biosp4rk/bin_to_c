@@ -1,4 +1,5 @@
 import argparse
+import sys
 
 from bin_to_c import (
     parse_context, parse_symbols, DataItem,
@@ -71,9 +72,14 @@ if __name__ == "__main__":
     with open(args.rom_file, "rb") as rom:
         dumper = Dumper(rom, syms)
         c_lines = dump_items(dumper, items)
+        warnings = dumper.warnings
     
     # Print C output
     print("\n".join(c_lines))
+
+    # Print warnings
+    for w in warnings:
+        print(f"Warning: {w}", file=sys.stderr)
 
     # Check to write pointers to file
     if args.ptr_output is not None:
