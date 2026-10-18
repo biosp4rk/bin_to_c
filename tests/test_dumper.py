@@ -57,6 +57,40 @@ class TestDumperInteger(unittest.TestCase):
         ev = Integer(IntType.U8, IntBase.HEX, {0: "ZERO"})
         self.assertEqual(d.dump(0, ev), "0x2")
 
+    def test_bit_flags_zero(self):
+        rom = io.BytesIO(b"\x00")
+        d = Dumper(rom)
+        i = Integer(IntType.U8, flags=True)
+        self.assertEqual(d.dump(0, i), "0")
+
+    def test_bit_flags_hex(self):
+        rom = io.BytesIO(b"\x56")
+        d = Dumper(rom)
+        i = Integer(IntType.U8, IntBase.HEX, flags=True)
+        self.assertEqual(d.dump(0, i), "0x2 | 0x4 | 0x10 | 0x40")
+
+    def test_bit_flags_enum(self):
+        rom = io.BytesIO(b"\x48\x02")
+        d = Dumper(rom)
+        keys = {
+            1 << 3: "BIT_3",
+            1 << 6: "BIT_6",
+            1 << 9: "BIT_9"
+        }
+        i = Integer(IntType.U16, enum_def=keys, flags=True)
+        self.assertEqual(d.dump(0, i), "BIT_3 | BIT_6 | BIT_9")
+
+    def test_bit_flags_multi(self):
+        rom = io.BytesIO(b"\xAD")
+        d = Dumper(rom)
+        keys = {
+            1 << 0: "BIT_0",
+            (1 << 2) | (1 << 3): "BITS_2_3",
+            (1 << 5) | (1 << 7): "BITS_5_7"
+        }
+        i = Integer(IntType.U8, enum_def=keys, flags=True)
+        self.assertEqual(d.dump(0, i), "BIT_0 | BITS_2_3 | BITS_5_7")
+
 
 class TestDumperBoolean(unittest.TestCase):
     def test_false_true(self):

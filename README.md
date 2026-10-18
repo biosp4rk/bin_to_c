@@ -62,17 +62,17 @@ The root value is an array. Each element in the array is an object with the foll
 
 #### Required Properties
 
-| Property | Type             | Description                                                     |
-| -------- | ---------------- | --------------------------------------------------------------- |
-| `def`    | object or string | A type definition, or the name of a type defined in the context |
-| `items`  | array            | List of items to extract, all sharing the same type             |
+| Property | Type            | Description                                                     |
+| -------- | --------------- | --------------------------------------------------------------- |
+| `def`    | object / string | A type definition, or the name of a type defined in the context |
+| `items`  | array           | List of items to extract, all sharing the same type             |
 
 #### Optional Properties
 
 | Property | Type    | Description                                                                   |
 | -------- | ------- | ----------------------------------------------------------------------------- |
 | `arrays` | boolean | Indicates that each item is an array with the provided count (default: false) |
-| `decl`   | string  | Optional declaration string to insert before each item                        |
+| `decl`   | string  | Declaration string to insert before each item                                 |
 
 ---
 
@@ -100,7 +100,11 @@ Each type definition object must include a `kind` field that determines its shap
 
 #### Integer
 
-Integers can be 8, 16, or 32 bit, signed or unsigned, and represented using decimal or hexidecimal. If `enum_def` is provided, the integer will be replaced with an enum value name if one matches. If it doesn't match, it will fall back to the provided sign and base. `enum_def` can be a full enum definition, or the name of an enum definition from the context file (see [Enum Definition Object](#enum-definition-object)).
+Integers can be 8, 16, or 32 bit, signed or unsigned, and represented using decimal or hexidecimal. 
+
+If `enum_def` is provided, the integer will be replaced with an enum value name if one matches. If it doesn't match, it will fall back to the provided sign and base. `enum_def` can be a full enum definition, or the name of an enum definition from the context file (see [Enum Definition Object](#enum-definition-object)).
+
+If `flags` is `true`, then the value will be separated into bit flags and combined with bitwise OR. The type must be unsigned when using bit flags. Multi-bit values are supported as well. For example, if the enum definition contains 0x20, 0x40, and 0x60 (which is 0x20 | 0x40), 0x60 will be checked first.
 
 ```json
 {
@@ -111,11 +115,12 @@ Integers can be 8, 16, or 32 bit, signed or unsigned, and represented using deci
 }
 ```
 
-| Field      | Description                                   |
-| ---------- | --------------------------------------------- |
-| `type`     | One of `u8`, `u16`, `u32`, `s8`, `s16`, `s32` |
-| `base`     | Optional: `dec` or `hex` (default: `dec`)     |
-| `enum_def` | Optional: Enum name or full enum definition   |
+| Field      | Type            | Description                                                     |
+| ---------- | --------------- | --------------------------------------------------------------- |
+| `type`     | string          | One of `u8`, `u16`, `u32`, `s8`, `s16`, `s32`                   |
+| `base`     | string          | (Optional) `dec` or `hex` (default: `dec`)                      |
+| `enum_def` | object / string | (Optional) Enum name or full enum definition                    |
+| `flags`    | boolean         | (Optional) Separate the value into bit flags (default: `false`) |
 
 ---
 
@@ -130,9 +135,9 @@ Boolean is intended for integers that should be represented as either `TRUE` or 
 }
 ```
 
-| Field  | Description                             |
-| ------ | --------------------------------------- |
-| `size` | Integer size in bytes: `1`, `2`, or `4` |
+| Field  | Type    | Description                             |
+| ------ | ------- | --------------------------------------- |
+| `size` | integer | Integer size in bytes: `1`, `2`, or `4` |
 
 ---
 
@@ -147,9 +152,9 @@ Pointers are expected to be 4 bytes and within a valid GBA memory region (or `NU
 }
 ```
 
-| Field       | Description                                             |
-| ----------- | ------------------------------------------------------- |
-| `type_cast` | Optional type cast (if the pointer name isn't resolved) |
+| Field       | Type   | Description                                               |
+| ----------- | ------ | --------------------------------------------------------- |
+| `type_cast` | string | (Optional) Type cast (if the pointer name isn't resolved) |
 
 ---
 
@@ -165,13 +170,13 @@ Arrays are defined by providing a count, an item type definition (or list of def
 }
 ```
 
-| Field            | Description                                            |
-| ---------------- | ------------------------------------------------------ |
-| `count`          | Number of elements (integer or hex string)             |
-| `items`          | Item type or list of item types                        |
-| `format`         | Optional display format (default: `multi_line`)        |
-| `enum_def`       | Optional enum definition for indexing                  |
-| `trailing_comma` | Include a comma after the last item (default: `false`) |
+| Field            | Type             | Description                                                       |
+| ---------------- | ---------------- | ----------------------------------------------------------------- |
+| `count`          | integer / string | Number of elements (integer or hex string)                        |
+| `items`          | object / array   | Item type or list of item types                                   |
+| `format`         | string           | (Optional) Display format (default: `multi_line`)                 |
+| `enum_def`       | object / string  | (Optional) Enum definition for indexing                           |
+| `trailing_comma` | boolean          | (Optional) Include a comma after the last item (default: `false`) |
 
 Supported formats:
 
@@ -211,12 +216,12 @@ Structs consist of an array of fields, where each field has a name, a type, and 
 }
 ```
 
-| Field         | Description                                               |
-| ------------- | --------------------------------------------------------- |
-| `fields`      | Array of struct fields                                    |
-| `fields.name` | Field name                                                |
-| `fields.type` | Type name or full type definition                         |
-| `fields.bits` | Optional bit width (only allowed with integer or boolean) |
+| Field         | Type            | Description                                                 |
+| ------------- | --------------- | ----------------------------------------------------------- |
+| `fields`      | array           | Array of struct fields                                      |
+| `fields.name` | string          | Field name                                                  |
+| `fields.type` | object / string | Type name or full type definition                           |
+| `fields.bits` | integer         | (Optional) Bit width (only allowed with integer or boolean) |
 
 ---
 
@@ -234,17 +239,17 @@ The `items` property is an array describing the items to extract. If the top-lev
 
 #### Required Fields
 
-| Field  | Description                     |
-| ------ | ------------------------------- |
-| `addr` | Address (integer or hex string) |
+| Field  | Type             | Description                     |
+| ------ | ---------------- | ------------------------------- |
+| `addr` | integer / string | Address (integer or hex string) |
 
 
 #### Optional Fields
 
-| Field   | Description                |
-| ------- | -------------------------- |
-| `name`  | Item name to use in output |
-| `count` | Number of items in array   |
+| Field   | Type    | Description                |
+| ------- | ------- | -------------------------- |
+| `name`  | string  | Item name to use in output |
+| `count` | integer | Number of items in array   |
 
 ---
 
@@ -451,7 +456,6 @@ DataItem(
 ## Planned Features
 
 - Validation using JSON schema
-- Support enum flag values (with OR operators)
 - Examples
   - Add more complex examples
   - Add examples with symbols files

@@ -28,12 +28,18 @@ class Integer(VarDef):
     type: IntType
     base: IntBase = IntBase.DEC
     enum_def: EnumDef = None
+    flags: bool = False
+
+    def __post_init__(self):
+        if self.signed() and self.flags:
+            raise ValueError("Integer cannot be signed when using bit flags")
 
     def __repr__(self) -> str:
         fields_str = ", ".join([
             f"type=IntType.{self.type.name}",
             f"base=IntBase.{self.base.name}",
-            f"enum_def={self.enum_def}"
+            f"enum_def={self.enum_def}",
+            f"flags={self.flags}"
         ])
         return f"Integer({fields_str})"
 
@@ -156,6 +162,8 @@ class Array(VarDef):
                 raise ValueError("Array items must be S8 or U8 when format is ASCII")
             if self.items.enum_def is not None:
                 raise ValueError("Integer cannot specify enum def when used for ASCII")
+            if self.items.flags:
+                raise ValueError("Integer cannot use bit flags when used for ASCII")
 
     def __repr__(self) -> str:
         if isinstance(self.items, list):

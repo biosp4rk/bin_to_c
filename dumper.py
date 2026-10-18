@@ -70,9 +70,7 @@ class Dumper:
         else:
             raise TypeError(type(var_def))
 
-    def _dump_integer(self, integer: Integer, value: int) -> str:
-        if integer.enum_def is not None and value in integer.enum_def:
-            return integer.enum_def[value]
+    def _dump_int_literal(self, integer: Integer, value: int) -> str:
         if integer.base == IntBase.DEC:
             return f"{value}"
         elif integer.base == IntBase.HEX:
@@ -81,6 +79,28 @@ class Dumper:
             return f"{sign}0x{value:X}"
         else:
             raise ValueError(integer.base)
+
+    def _dump_integer(self, integer: Integer, value: int) -> str:
+        if integer.flags:
+            enum_def = integer.enum_def or {}
+            if value == 0:
+                return enum_def.get(0, self._dump_int_literal(integer, 0))
+            flags: list[tuple[int, str]] = []
+            # Check enum values first
+            enums = sorted(enum_def.items(), reverse=True)
+            for v, n in enums:
+                if v != 0 and value & v == v:
+                    flags.append((v, n))
+                    value &= ~v
+            for i in range(value.bit_length()):
+                f = 1 << i
+                if value & f:
+                    flags.append((f, self._dump_int_literal(integer, f)))
+            flags.sort()
+            return " | ".join(s for _, s in flags)
+        if integer.enum_def is not None and value in integer.enum_def:
+            return integer.enum_def[value]
+        return self._dump_int_literal(integer, value)
 
     def _dump_boolean(self, value: int) -> str:
         if value > 1:

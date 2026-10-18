@@ -70,7 +70,8 @@ def parse_def(
                 enum_def = get_enum_def(enum_obj, enums)
             else:
                 enum_def = None
-            return Integer(type, base, enum_def)
+            flags = obj.get("flags", False)
+            return Integer(type, base, enum_def, flags)
         case "bool":
             return Boolean(parse_int(obj["size"]))
         case "struct":

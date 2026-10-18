@@ -1,0 +1,18 @@
+{
+    "enums": {
+        "Keys": {
+            "0x0": "KEY_NONE",
+            "0x1": "KEY_A",
+            "0x2": "KEY_B",
+            "0x4": "KEY_SELECT",
+            "0x8": "KEY_START",
+            "0x10": "KEY_RIGHT",
+            "0x20": "KEY_LEFT",
+            "0x40": "KEY_UP",
+            "0x80": "KEY_DOWN",
+            "0x100": "KEY_R",
+            "0x200": "KEY_L",
+            "0xF0": "DPAD_ANY"
+        }
+    }
+}

@@ -1,0 +1,44 @@
+[
+    {
+        "def": {
+            "kind": "int",
+            "type": "u16",
+            "base": "hex",
+            "enum_def": "Keys",
+            "flags": true
+        },
+        "decl": "const u16",
+        "items": [
+            {"addr": "0x0", "name": "Keys_0"},
+            {"addr": "0x2", "name": "Keys_2"},
+            {"addr": "0x4", "name": "Keys_4"},
+            {"addr": "0x6", "name": "Keys_6"},
+            {"addr": "0x8", "name": "Keys_8"},
+            {"addr": "0xA", "name": "Keys_A"}
+        ]
+    },
+    {
+        "def": {
+            "kind": "int",
+            "type": "u8",
+            "base": "hex",
+            "flags": true
+        },
+        "decl": "const u8",
+        "items": [
+            {"addr": "0xC", "name": "Flags8_C"},
+            {"addr": "0xD", "name": "Flags8_D"}
+        ]
+    },
+    {
+        "def": {
+            "kind": "int",
+            "type": "u32",
+            "flags": true
+        },
+        "decl": "const u32",
+        "items": [
+            {"addr": "0x10", "name": "Flags32_10"}
+        ]
+    }
+]

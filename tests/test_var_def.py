@@ -20,15 +20,19 @@ class TestInteger(unittest.TestCase):
         i = Integer(IntType.U16, IntBase.HEX)
         self.assertEqual(
             repr(i),
-            "Integer(type=IntType.U16, base=IntBase.HEX, enum_def=None)"
+            "Integer(type=IntType.U16, base=IntBase.HEX, enum_def=None, flags=False)"
         )
 
     def test_integer_enum_repr(self):
         i = Integer(IntType.U16, enum_def={0: "ZERO", 1: "ONE"})
         self.assertEqual(
             repr(i),
-            "Integer(type=IntType.U16, base=IntBase.DEC, enum_def={0: 'ZERO', 1: 'ONE'})"
+            "Integer(type=IntType.U16, base=IntBase.DEC, enum_def={0: 'ZERO', 1: 'ONE'}, flags=False)"
         )
+
+    def test_invalid_flags_signed(self):
+        with self.assertRaises(ValueError):
+            Integer(IntType.S32, flags=True)
 
 
 class TestBoolean(unittest.TestCase):
@@ -89,7 +93,7 @@ class TestStruct(unittest.TestCase):
         ])
         self.assertEqual(
             repr(s),
-            'Struct(fields=[Field(name="a", type=Integer(type=IntType.U8, base=IntBase.DEC, enum_def=None), bits=None), Field(name="b", type=Boolean(size=1), bits=None)])'
+            'Struct(fields=[Field(name="a", type=Integer(type=IntType.U8, base=IntBase.DEC, enum_def=None, flags=False), bits=None), Field(name="b", type=Boolean(size=1), bits=None)])'
         )
 
 class TestArray(unittest.TestCase):
@@ -117,6 +121,10 @@ class TestArray(unittest.TestCase):
     def test_invalid_ascii_enum_items(self):
         with self.assertRaises(ValueError):
             Array(2, Integer(IntType.U8, enum_def={0: "A"}), ArrFormat.ASCII)
+
+    def test_invalid_ascii_flags_items(self):
+        with self.assertRaises(ValueError):
+            Array(2, Integer(IntType.U8, flags=True), ArrFormat.ASCII)
 
     def test_repr_single_item(self):
         arr = Array(2, Integer(IntType.U8))
