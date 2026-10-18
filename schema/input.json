@@ -34,23 +34,6 @@
             }
         },
         "required": ["def", "items"],
-        "additionalProperties": false,
-        "if": {
-            "properties": {
-                "arrays": {
-                    "const": true
-                }
-            },
-            "required": ["arrays"]
-        },
-        "then": {
-            "properties": {
-                "items": {
-                    "items": {
-                        "required": ["addr", "count"]
-                    }
-                }
-            }
-        }
+        "additionalProperties": false
     }
 }
