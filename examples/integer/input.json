@@ -84,7 +84,7 @@
             "type": "u32",
             "base": "hex"
         },
-        "decl": "const u8",
+        "decl": "const u32",
         "items": [
             {"addr": 8, "name": "U32_Hex_8"},
             {"addr": 12, "name": "U32_Hex_C"}

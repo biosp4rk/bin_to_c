@@ -8,7 +8,7 @@ EXAMPLES_DIR = Path("examples")
 
 
 class TestExamples(unittest.TestCase):
-    pass
+    maxDiff = None
 
 
 def _make_example_test(example_dir: Path):
@@ -17,6 +17,7 @@ def _make_example_test(example_dir: Path):
         context_file = example_dir.joinpath("context.json")
         symbols_file = example_dir.joinpath("symbols.txt")
         input_file = example_dir.joinpath("input.json")
+        expected_file = example_dir.joinpath("expected.c")
 
         options = Options(
             str(data_file),
@@ -26,7 +27,9 @@ def _make_example_test(example_dir: Path):
         )
 
         result = main(options)
-        self.assertGreater(len(result.c_lines), 0)
+        with open(expected_file) as fp:
+            expected = fp.read()
+        self.assertEqual("\n".join(result.c_lines) + "\n", expected)
         self.assertEqual(len(result.warnings), 0)
 
     return test
